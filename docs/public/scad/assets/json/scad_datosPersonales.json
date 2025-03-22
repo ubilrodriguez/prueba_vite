@@ -1,0 +1,237 @@
+{ 
+	"name": "panatalla1",
+	"title":"Siarp-Scad",
+	"logo":"https://siarperu.com//Proyectos/deteccion_rostro/img/logo.png",
+	
+	"id": "panatalla1", 
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},		
+			{"type":"css","url": "assets/css/man.css"},		
+			
+			
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlDate.js"},
+			{"type":"js", "url": "assets/script/scad_mantenimiento.js"}
+
+		
+		], 
+		
+	"execute":"scad_changeDataPersonal",
+	
+	"elements":
+		[
+			{
+				"type":"panel",
+				"id":"personalFondo",
+				"class":"personalFondo",
+				"property":
+					{
+						"absolute":"true",
+						"sizex":"100%",
+						"sizey":"100%"
+					},
+				"style":
+					{
+						"color":"#1F1F1F"
+					},
+				"elements":
+					[
+						{
+							"type":"panel",
+							"id":"contPersonal",
+							"class":"contPersonal padP",
+							"property":
+								{
+									"absolute":"true",
+									"sizex":"70%",
+									"sizey":"80%"
+								},
+							"style":
+								{
+									"color":"#1F1F1F"
+								},
+								
+							"elements":
+								[	
+									{
+										"type":"panel",
+										"class":"titleM titleP",
+										"id":"titleP",
+										"property":
+											{
+												"text":"Datos Personales",
+												"sizex":"40%",
+												"sizey":"5%",
+												"posx":"30%"
+												
+											}
+									},
+									
+									{
+										"type":"textbox",
+										"class":"userP",
+										"id":"userP",
+										"property":
+											{
+												"type":"text",
+												"holder":"Nueva Contrase\u00f1a",
+												"sizex":"10%",
+												"sizey":"5%",
+												"posx":"13%",
+												"value":"esperando",
+												"disable":true
+											}
+									},
+									{
+										"type":"formulario",
+										"property":
+											{
+												"class":"formPersonal",
+												"sizex":"100%",
+												"sizey":"70%"
+												
+											},
+										"elements":
+											[
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"nameP",
+													"property":
+														{
+															"type":"text",
+															"holder":"Nombre(s)",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"5%"
+															
+														}
+												},
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"apellidoP1",
+													"property":
+														{
+															"type":"text",
+															"holder":"Primer Apellido",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"7%"
+														}
+												},
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"apellidoP2",
+													"property":
+														{
+															"type":"text",
+															"holder":"Segundo Apellido",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"7%"
+														}
+												},
+												
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"direccionP",
+													"property":
+														{
+															"type":"text",
+															"holder":"Direccion",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"5%"
+														}
+												},
+												
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"ciudadP",
+													"property":
+														{
+															"type":"text",
+															"holder":"Ciudad",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"7%"
+														}
+												},
+												
+												{
+													"type":"textbox",
+													"class":"userM telP",
+													"id":"telP",
+													"property":
+														{
+															"type":"number",
+															"holder":"Telefono",
+															"sizex":"26%",
+															"sizey":"11%",
+															"posx":"7%"
+														}
+												},
+												
+												
+												
+												{
+													"type": "date",
+													"id":"dateP",
+													"title":"Fecha de Nacimiento",
+													"class":"dateP",
+													"style": 
+														{	
+															"color": "#1F1F1F"
+														},
+													"property":
+														{	
+															"sizex":"30%",
+															"sizey":"11%",
+															"posx":"14%",
+															"posy":"3%",
+															"value":"2018-05-10"
+														}
+												},
+												
+												{
+													"type":"textbox",
+													"class":"userM",
+													"id":"gmailP",
+													"property":
+														{
+															"type":"text",
+															"label":"Correo Electronico",
+															"holder":"Correo Electronico",
+															"sizex":"30%",
+															"sizey":"11%",
+															"posx":"17%"
+														}
+												},	
+												
+												{
+													"type":"button",
+													"id":"buttonP",
+													"class":"btnMan btnP",
+													"property":
+														{
+															"text":"Actualizar Datos Personales"
+														}
+												}
+												
+											]
+									}
+								]
+						}
+					]
+			}
+				
+		]	
+			
+		
+		
+		
+}

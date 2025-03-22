@@ -1,0 +1,83 @@
+{ 
+	"name": "panatalla1", 
+	"title":"Login-Face",
+	"id": "panatalla1",
+		
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},
+			{"type":"css","url": "assets/css/login.css"},
+			{"type":"css","url": "assets/css/pag_facial.css"},
+			
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},
+			
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlFace.js"},
+			{"type":"js", "url": "assets/scad/scripts/sys/scad_sysLoop.js"},
+			
+			{"type": "js","url": "assets/scad/scripts/controls/scad_CtrlGrafBarra.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlMap.js"},		
+			{"type":"js", "url": "assets/scad/scripts/library/leaflet/leaflet.js"},
+			{"type": "js","url": "assets/scad/scripts/controls/scad_ctrlGrafLine.js"},
+			{"type": "js","url": "assets/scad/scripts/controls/scad_ctrlGrafCir.js"},
+			{"type": "js","url": "assets/scad/scripts/controls/scad_CtrlProgressBar.js"},
+			{"type": "js","url": "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/chart.js"},
+			{"type": "js","url": "assets/scad/scripts/controls/scad_ctrlTable.js"},
+			
+			{"type":"js", "url": "assets/script/test/facial_js/siarp_loginFace.js"}
+
+	
+		
+		],
+		
+	"execute":"siarp_faceValidate",
+		
+	"elements":
+		[
+			{"type":"panel","name":"Padre","class":"bodyFace","id":"1","property":{"sizex":"100vw","sizey":"100vh","absolute":"true"},
+			
+			"elements":
+				[	
+					{"type":"panel","class":"titleFace","name":"Padre","id":"ti","style":{"color":"transparent"},"property":{"sizex":"60vw","sizey":"5vh","posx":"20vw","posy":"8vh"},
+						"elements":
+						[
+							{"type":"label","class":"contTitleFa","id":"contTitleFa","property":{"text":"RECONOCIMIENTO FACIAL"}}
+						]
+					},
+					{"type":"panel","class":"cont_cam pad","style":{"color":"white"},"name":"Padre", "id":"cont_cam"},
+					{"type":"panel","class":"count padCount","id":"count","style":{"color":"transparent"},
+						"elements":
+						[
+							{"type":"panel","class":"count2 padCount2","name":"Padre", "id":"cont_cam","property":{"image":"assets/img/logo.png"}}
+						]
+					},
+					{"type":"panel","class":"contWelcome","id":"contWelcome","style":{"color":"transparent"},"property":{"sizex":"60vw","sizey":"12vh","posx":"20vw","posy":"70vh"},
+						"elements":
+							[
+								{"type":"panel","class":"imgMess","id":"imgMess","style":{"color":"transparent"},"property":{"image":"assets/img/accesDenied.png","sizex":"10vw","sizey":"15vh"}},
+								{"type":"panel","class":"contMss","id":"contMss","style":{"color":"transparent"},"property":{"sizex":"50vw","sizey":"15vh"},
+									"elements":
+										[
+											{"type":"label","class":"contMessageF","id":"contMessageF","property":{"text":"oliboli"}}
+										]
+								}
+							]
+					},
+					
+					{"type":"panel","class":"aviso","id":"aviso","style":{"color":"transparent"},"property":{"sizex":"60vw","sizey":"12vh","posx":"20vw","posy":"75vh"},
+						"elements":
+							[
+							{"type":"label","class":"messAviso","id":"messAviso","property":{"text":"Por favor mirar a la camara para realizar el reconocimiento facial"}}
+							]
+					}
+					
+					
+					
+				
+				]
+			}
+		]	
+			
+}
+		
+		

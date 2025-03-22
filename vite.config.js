@@ -22,6 +22,7 @@ export default defineConfig(({ command }) => ({
   
   build: {
     outDir: "../dist",  // Carpeta de salida fuera de docs
+    publicDir: "docs/public",  // Ruta absoluta a assets
     emptyOutDir: true,
     rollupOptions: {
       input: {

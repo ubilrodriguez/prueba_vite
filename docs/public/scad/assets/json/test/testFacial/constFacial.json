@@ -1,0 +1,48 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},
+			{"type":"css","url": "assets/css/login.css"},
+			{"type":"css","url": "assets/css/pag_facial.css"},
+			{"type":"css","url": "assets/scad/css/myStyle.css"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},
+			{"type":"js", "url": "assets/scad/scripts/library/face/face-api.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlFace.js"},
+			{"type":"js", "url": "assets/script/test/facial_js/siarp_loginFace.js"}
+
+	
+		
+		],
+		
+	"execute":"siarp_faceValidate",
+		
+	"elements":
+		[
+			{"type":"panel","name":"Padre", "id":"1","property":{"image":"./assets/img/fondo_login.jpg","img-repeat":"1","sizex":"100vw","sizey":"100vh","absolute":"true"},
+			
+			"elements":
+				[
+					{"type":"panel","class":"col-6  cont_cam","id":"cont_cam","style":{"color":"red"},"property":{"posx":"20vw","posy":"11vw","sizex":"60vw","sizey":"60vh"}},
+					{"type":"button","class":"btn-2","id":"validate","property":{"text":"VALIDAR","posx":"20vw","posy":"1vw","sizex":"60vw","sizey":"50px"}},
+					{"type":"panel","class":"col-6  cont_process","id":"cont_process","style":{"color":"transparent"},"property":{"posx":"20vw","posy":"2vw","sizex":"60vw","sizey":"10vh"},
+					
+					"elements":
+						[
+							{"type":"panel","class":"col-6  cont_process","id":"cont_process","property":{"image":"./assets/scad/gif/loadFacial.gif","posx":"0vw","posy":"1vw","sizex":"60vw","sizey":"10vh"}}
+							
+					
+						]
+					}
+					
+				
+				]
+			}
+		]	
+			
+		
+		
+		
+}

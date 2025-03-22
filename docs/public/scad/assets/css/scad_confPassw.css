@@ -1,0 +1,534 @@
+body{
+	margin:0;
+	padding:0;
+   }
+
+.btnHome
+{
+    
+    background: #283747;
+    border: white 2px solid;
+    border-radius: 60px;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.contDivBtnHome div
+{
+    display: inline-flex;
+}
+.separator
+{
+	margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+.scad_conImgPersonaje
+{
+	height:100%;
+	width:100%;
+}
+.scad_confPadrePassw{
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    background: black;
+}
+.scad_confPanelPrinPasw{
+	width: 100%;
+    height: 100%;
+    position: absolute;
+
+}
+.scad_confPaswContElem{
+    width: 40%;
+    height: 85%;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    background: #AAAAAAE8;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    border: white 2px solid;
+    border-radius: 7px;
+    color: white;
+}
+
+
+.scad_conPersonaje
+{
+	width: 40%;
+    height: 85%;
+    position: absolute;
+    top: 5%;
+    left: 55%;
+    background: #AAAAAAE8;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center; 
+	border: white 2px solid;
+	border-radius: 7px; 
+	color:white ;
+}
+@media only screen and ( max-width: 600px ) {
+.scad_confPaswContElem{	
+	 
+	width:80%;
+	left: 10%;
+}
+}
+
+.scad_confPaswTitle{
+	width: 100%;
+    height: 8%;
+  float: left; 
+	background:#55555588   ;
+	 text-align: center;
+}
+.scad_confPaswTitle h3
+{
+	font-size: 25px;
+    color: black;
+    margin-top: 1.5%;
+}
+ 
+.scad_confPaswUs input{
+	width:100%;
+	height:80%;
+	
+	border-radius: 5px;
+    border: none;
+	background: #b9b6b6;
+}
+.scad_confPassCForm{
+	width: 100%;
+    /*height: 30%;*/
+	float: left; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.scad_conCam
+{
+	border: solid 2px #55555588;
+    width: 65%;
+    height: 35%;
+    float: left;
+    margin-top: 5px;
+    border-radius: 10px;
+    position: relative;
+    background-color: black;
+}
+
+.scad_conCam video
+{
+	/*object-fit:fill;*/
+    width: 100% !important;
+    height: 100% !important;
+	border-radius: 10px;
+
+
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+
+
+}
+.scad_conCam canvas{
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    object-fit: contain;
+
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+.scad_confPaswForm{
+ 
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.scad_confPaswTxtB
+{
+	
+    width: 75%;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+.scad_confPaswTxtB input{
+	width:100%;
+	height:80%;
+	border-radius: 5px;
+    border: none;
+	background: #ffffff;
+    box-shadow: 0px 0px 3px 1px #787777;
+}
+.scad_confPaswTxtB input:hover{
+	box-shadow: 0 0 10px 0 rgba(255,255,255,.3);
+	border: 1px solid white;
+} 
+
+.scad_confPaswBtn
+{
+    border: white 2px solid;
+    border-radius: 5px;
+    /* box-shadow: 0px 0px 20px white; */
+    height: 30px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.scad_confPaswBtn:hover{
+	box-shadow: 0 0 10px 0 rgba(255,255,255,.3);
+	border: 1px solid white;
+	cursor:pointer;
+}
+
+.scad_btnRegister
+{
+    font-weight: bold;
+    color: #F2F3F4;
+    background: #283747;
+    border: white 1px solid;
+    border-radius: 10px;
+    /* box-shadow: 0px 0px 20px white; */
+    height: 40px;
+    width: 76%;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.scad_btnRegister:hover{
+	box-shadow: 0 0 10px 0 rgba(255,255,255,.3);
+	border: 1px solid white;
+	cursor:pointer;
+}
+
+.contDivBtnHome
+{
+    text-align: center;
+    color: #FFF;
+    background: transparent;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 5px;
+    height: 50px;
+    z-index: 0;
+}
+
+
+
+@media screen and (max-width:1000px)
+{
+    .scad_confPassCForm {
+        height: 30%;
+    }
+
+    .scad_conCam {
+        height: 42%;
+      
+    }
+} 
+
+
+@media screen and (max-width:500px)
+{
+    .scad_confPassCForm {
+        height: 30%;
+    }
+
+    .scad_conCam {
+        height: 48%;
+    }
+} 
+.scad_conList{
+    width: 80%;
+    height: 90%;
+    border-radius: 5px;
+}
+.item_lisSh{
+    cursor:pointer;
+}
+.scad_conTools{
+    width: 100%;
+    height: 8%;
+    background-color: #55555588;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.scad_conShot{
+    background-color: #55555588;
+    width: 100%;
+    height: 20%;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.scad_conList_ti{
+    width: 80%;
+}
+.scad_conList_ti h3{
+    margin: 0;
+    font-size: 16px;;
+}
+/***POPUP***/
+.contePop{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #0000006b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    animation: 0.5s ease-out 0s 1 ani_pop_;
+}
+.contePopA{
+    width: 120vh;
+    background-color: #5c5c5c;
+    height: 90vh;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 9999999;
+    border: 1px solid white;
+    
+}
+@keyframes ani_pop_{
+	0%{
+		width:90%;
+		height:90%;
+        left: 5%;
+		opacity:0;
+	}
+	100%{
+		width:100%;
+		height:100%;
+        left: 0;
+		opacity:1;
+	}
+}
+.contePopH{
+    width: 100%;
+    height: 20px;
+    background: transparent;
+}
+.contePopB{
+    height: 100%;
+    width: 100%;
+    /* background: white; */
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    flex-wrap: wrap;
+}
+.btn_exit{
+    width: 15px;
+    height: 15px;
+    border: 0;
+    border-radius: 3px;
+    float: right;
+    background-color: transparent;
+}
+.title_pop{
+    position: absolute;
+    top: -10px;
+}
+.title_pop h3{
+    margin: 0;
+    color: white;
+}
+.conte_canPop{
+    display: flex;
+    height: 80%;
+    width: 50%;
+}
+.conte_btnPop{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+}
+.btn_guardarPop{
+    font-weight: bold;
+    color: #F2F3F4;
+    background: #283747;
+    border: white 1px solid;
+    border-radius: 3px;
+    /* box-shadow: 0px 0px 20px white; */
+    height: 27px;
+    width: 90px;
+}
+.conte_Tool{
+    height: 80%;
+    width: 30%;
+    background-color: #d7d7d72b;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+}
+#id_conteToolL{
+    right: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+#id_conteToolR{
+    
+    left: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.conte_headBtn{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin-top: 5px;
+    justify-content: center;
+}
+.conte_headBtn h3{
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn_cadD_lbl{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    
+    height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+}
+
+.btn_cadD:checked + .btn_cadD_span{
+    background-color: green;
+    
+}
+.btn_cadD{
+    display: none;
+}
+.btn_cadD_span{
+    background-color: #123390de;
+   
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 3px;
+}
+.btn_cadD_span:hover{
+    background-color: rgb(81, 81, 198);
+}
+
+
+/*Range Reset*/
+input[type="range"] {
+    -webkit-appearance: none;
+     appearance: none;
+     background: transparent;
+     cursor: pointer;
+     width: 80px;
+ }
+ 
+ /* Removes default focus */
+ input[type="range"]:focus {
+   outline: none;
+ }
+ 
+ /***** Chrome, Safari, Opera and Edge Chromium styles *****/
+ /* slider track */
+ input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #053a5f;
+    border-radius: 0.5rem;
+    height: 0.5rem;  
+ }
+ 
+ /* slider thumb */
+ input[type="range"]::-webkit-slider-thumb {
+   -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -4px; /* Centers thumb on the track */
+ 
+    /*custom styles*/
+    background-color: #5cd5eb;
+    height: 1rem;
+    width: 0.5rem;
+ }
+ 
+ input[type="range"]:focus::-webkit-slider-thumb {   
+   border: 1px solid #053a5f;
+   outline: 3px solid #053a5f;
+   outline-offset: 0.125rem; 
+ }
+ .conte_bodyBtn{
+    /*display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 5px;*/
+    color: white;
+ }
+ .conte_bodyBtn h3{
+    grid-column: 1/4;
+    margin: 0;
+ }
+ .conte_distal{
+    font-size: 14px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    row-gap: 2px;
+ }
+ .conte_distal label{
+    font-size: 12px;
+ }
+ .conte_distal output,.conte_distal .input_range {
+    width: 60px;
+    height: 20px;
+    background-color: #e4e4e4;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    border: none;
+ }
+
+
+
