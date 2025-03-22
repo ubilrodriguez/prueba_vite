@@ -2,7 +2,7 @@
   "type": "module",
   "name": "kalidokit",
   "scripts": {
-    "dev": "vite docs",
+    "dev": "vite --root docs",
     "build": "vite build && npm run build:lib",
     "build:lib": "tsc -p .",
     "serve": "vite",
