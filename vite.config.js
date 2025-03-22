@@ -1,34 +1,54 @@
-import path from "path";
 import { defineConfig } from "vite";
+import path from "path";
+import { fileURLToPath } from "url";
+import typescript from "@rollup/plugin-typescript";
 import Banner from "vite-plugin-banner";
-import pkg from "./package.json" assert { type: "json" }; // Usar assert para JSON
-import friendlyTypeImports from "rollup-plugin-friendly-type-imports";
-import { fileURLToPath } from "url"; // Necesario para __dirname en ES Modules
+import pkg from "./package.json" assert { type: "json" };
 
-// Equivalente a __dirname en ES Modules
+// Configuración de __dirname para ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default defineConfig({
-    base: "./",
-    build: {
-        lib: {
-            entry: path.resolve(__dirname, "src/index.ts"),
-            name: "Kalidokit",
-            fileName: (format) => `kalidokit.${format}.js`,
-        },
-        rollupOptions: {
-            exports: "named",
-            external: [],
-            output: {
-                globals: {},
-            },
-        },
-    },
+export default defineConfig(({ command }) => {
+  // Configuración base común
+  const baseConfig = {
     plugins: [
-        Banner(
-            `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n * \n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Identifier: ${pkg.license} \n * ${pkg.homepage}\n */`
-        ),
-        friendlyTypeImports(),
+      Banner(
+        `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n * \n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Identifier: ${pkg.license}\n * ${pkg.homepage}\n */`
+      ),
+      typescript({
+        tsconfig: "./tsconfig.json",
+      }),
     ],
+  };
+
+  // Configuración para desarrollo (npm run dev)
+  if (command === "serve") {
+    return {
+      ...baseConfig,
+      root: "docs", // Directorio raíz para el servidor de desarrollo
+      server: {
+        open: true,
+      },
+    };
+  }
+
+  // Configuración para producción (npm run build)
+  return {
+    ...baseConfig,
+    build: {
+      lib: {
+        entry: path.resolve(__dirname, "src/index.ts"),
+        name: "Kalidokit",
+        fileName: (format) => `kalidokit.${format}.js`,
+      },
+      rollupOptions: {
+        external: [],
+        output: {
+          globals: {},
+        },
+      },
+      outDir: "dist", // Directorio de salida para la librería
+    },
+  };
 });
