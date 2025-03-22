@@ -1,0 +1,156 @@
+import { siarp_initDrawVRM, siarp_camPowerOff, siarp_camPowerOn, siarp_getDataVRM /*data avatar*/ } from '../../../script.js';
+function createRegister()
+{
+	var cameraOpen=false;
+	var contButtonCamOff,contButtonsCamOn,contConfCam;
+	createPageRegister();
+	var util=new scad_util();
+	console.log("olaaaaaaaaaaa");
+	console.log(util);
+	///////////////// FUNCIONAMIENTO DE LA PAGINA ///////////////////	
+	function createPageRegister()
+	{
+		///////////////// CREACION DE LA PAGINA ///////////////////
+		var contGrnl=new scad_ctrlPanel(document.body,"id","class");
+		
+		contGrnl.addPosition("absolute");
+		contGrnl.sizePanel("100%","100%");
+		contGrnl.addImagePanel("scad/assets/img/scad_demoRegister/fondo.jpg","1");
+		
+		var contConfElem=new scad_ctrlPanel(contGrnl.getHandler(),"id","scad_confPanelPrinPasw");
+		
+		var contConfElem2=new scad_ctrlPanel(contConfElem.getHandler(),"id","scad_confPaswContElem");
+		var contConfTitle=new scad_ctrlPanel(contConfElem2.getHandler(),"id","scad_confPaswTitle");
+		contConfTitle.addTextPanel("Registros de Acciones");
+		
+		var contConfForm=new scad_ctrlPanel(contConfElem2.getHandler(),"id","scad_confPassCForm");
+		
+		contConfCam=new scad_ctrlPanel(contConfElem2.getHandler(),"scad_conCam","scad_conCam");
+		//contConfCam.hiddenPanel();
+		var contConfFace=new scad_ctrlPanel(contConfCam.getHandler(),"scad_conCam2","scad_conCam2");
+		contConfFace.addImagePanel("scad/assets/img/scad_demoRegister/face.png");
+		
+		scad_insertobj(contConfFace.getHandler(),"video","id","video01","class","input_video");
+		scad_insertobj(contConfFace.getHandler(),"canvas","id","canvas02","class","guides");
+	
+		
+		
+		var contTextBoxUser=new scad_ctrlTextBox(contConfForm.getHandler(),"userName","scad_confPaswTxtB","","","text","","","Ingrese la Accion");
+		
+		//var contTextBoxPass=new scad_ctrlTextBox(contConfForm.getHandler(),"changepass","scad_confPaswTxtB","","","text","","","Ingrese la Descripcion");
+		
+		var contTextBoxDescrip=new scad_ctrlTextBox(contConfForm.getHandler(),"description","scad_confPaswTxtB","","","text","","","Ingrese la Descripcion");
+		
+		var contTextBoxVoice=new scad_ctrlTextBox(contConfForm.getHandler(),"voice","scad_confPaswTxtB","","","text","","","Ingrese la voz");
+		
+		
+		
+		
+		var contButtonRegister=new scad_ctrlBoton(contConfForm.getHandler(),"btnRegister","scad_btnRegister");
+		contButtonRegister.typeBut("button");
+		contButtonRegister.addTextButton("Registrar");
+		//contButtonRegister.disabled();
+		
+		contButtonRegister.getHandler().onclick=function()
+		{
+			var nameAccion=util.scad_util_getObjDOM("nameAccion").value;
+			var description=util.scad_util_getObjDOM("description").value;
+			var voice=util.scad_util_getObjDOM("voice").value;
+			if(nameAccion!="" && description!="")
+			{
+				var time=scad_util_getTime("time");
+				var date=scad_util_getTime("date");
+				var coor='[["id_mano",4,5,4],["id_brazo",4,5,4]]';
+				
+				var data=['"'+nameAccion+'"','"'+description+'"','"'+voice+'"',coor];
+				
+				var req='{"opera":"40","date":"'+date+'","time":"'+time+'","data":['+data+']}';
+				//console.log(req);
+				//console.log(JSON.parse(req));
+				
+				ptr=new scad_sysData("assets/php/operaService.php","POST",req,sendRegister,null,null,null,null,null);
+				ptr.setSync(false);		
+				ptr.setReturnType("json");		
+				ptr.send();
+				
+				function sendRegister(data)
+				{
+					console.log(data);
+					if(data["rc"]=="0")
+					{
+						var msg=new scad_ctrlConfirm(document.body,"acept",null,null);
+						msg.addTxtHead("Confirmación");
+						msg.addTextBody("Los datos se registraron con éxito");
+					};
+				};
+				
+			}else{
+				console.log("nooooooo");
+				var msg=new scad_ctrlConfirm(document.body,"acept",null,functOk);
+				msg.addTxtHead("¡Advertencia!");
+				msg.addTextBody("Los campos de Accion y/o descripcion no deben estar en blanco");
+				
+				function functOk()
+				{
+					scad_util_getObjDOM("nameAccion").value="";
+					scad_util_getObjDOM("description").value="";
+					scad_util_getObjDOM("voice").value="";
+				};
+			};
+		};
+		
+		var separator=new scad_ctrlPanel(contConfForm.getHandler(),"cont_separator");
+		separator.sizePanel("100%","2px");
+		scad_insertobj(separator.getHandler(),"hr","id","separator","class","separator");
+	
+
+		
+		contButtonCamOff=new scad_ctrlBoton(contConfForm.getHandler(),"actCamOff","scad_confPaswBtn");
+		contButtonCamOff.typeBut("button");
+		//contButtonPoppusCam.addTextButton("Camara");
+		contButtonCamOff.addImageButton("scad/assets/img/scad_demoRegister/camaraOff.png");
+		contButtonCamOff.hiddenButton();
+		contButtonCamOff.getHandler().onclick=function(){
+			console.log("camara");
+			if(siarp_camPowerOff!=null)
+			{
+				siarp_camPowerOff();
+				contButtonsCamOn.showButton();
+				contButtonsCamOn.getHandler().style.display="inline-block";
+				contButtonCamOff.hiddenButton();
+			}
+		};		
+		
+		
+		contButtonsCamOn=new scad_ctrlBoton(contConfForm.getHandler(),"actCamOn","scad_confPaswBtn");
+		contButtonsCamOn.typeBut("button");
+		contButtonsCamOn.getHandler().onclick=function(){
+			console.log("camara");
+			if(siarp_camPowerOn!=null)
+			{
+				siarp_camPowerOn();				
+				contButtonCamOff.showButton();
+				contButtonCamOff.getHandler().style.display="inline-block";
+				contButtonsCamOn.hiddenButton();
+			}
+		};
+		
+		
+		contButtonsCamOn.addImageButton("scad/assets/img/scad_demoRegister/camaraOn.png");
+		
+		/////////////////////////  SEGUNDO PANEL //////////////////////////////////
+		
+		var contSecondPanel=new scad_ctrlPanel(contConfElem.getHandler(),"id","scad_conPersonaje");
+		var contPersonaje=new scad_ctrlPanel(contSecondPanel.getHandler(),"cam_DashBody","scad_conImgPersonaje");
+		
+		contPersonaje.addImagePanel("scad/assets/img/scad_demoRegister/fondo2.jpg","1");
+
+		siarp_initDrawVRM();
+	}
+
+};
+
+
+
+createRegister();
+

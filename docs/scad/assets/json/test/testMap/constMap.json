@@ -1,0 +1,64 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},		
+			{"type":"css","url": "assets/css/login.css"},		
+			{"type":"css","url": "assets/scad/scripts/library/leaflet/leaflet.css"},		
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlMap.js"},
+			{"type":"js", "url": "assets/script/scad_sysData.js"},
+			{"type":"js", "url": "assets/scad/scripts/sys/scad_sysLoop.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlBlock.js"},
+			{"type":"js", "url": "assets/scad/scripts/library/leaflet/leaflet.js"},
+			{"type":"js", "url": "https://maps.googleapis.com/maps/api/js?key=AIzaSyBwcWNN9MF6RON8hf4GJwXwD0FnP3qDWfQ"}
+
+			
+		], 
+
+	"elements":
+		[
+			{"type":"panel","style":{"color":"gray"},"property":{"sizex":"100vw","sizey":"100vh"},
+				"elements":
+					[	
+						{"type":"panel","style":{"color":"transparent"},"property":{"sizex":"100%","sizey":"100%"},
+							"elements":
+								[
+									{
+										"type":"map",
+										"id":"showMa",
+										"lat":-10,
+										"lon":-76,
+										"zoom":9,
+										"class":"mapa", 
+										"property":
+											{
+												"typeMap":"leaflet",
+												"absolute":"true",
+												"sizex":"100%",
+												"sizey":"100%",
+												"pines":
+													{	
+														"draw_type":"dot",
+														"src":"/assets/php/test_mapa/RanCoor.php",
+														"refresh":1
+													}
+												
+											}
+									}
+								]
+							
+						}
+						
+						
+				
+					]
+			}
+		]	
+			
+		
+		
+		
+}

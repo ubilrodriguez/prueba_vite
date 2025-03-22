@@ -1,0 +1,34 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	
+	"elements":
+		[   
+				{"type":"elementBr","style":{"color": "transparent"},"property":{"sizex":"100%","sizey":"60px"},
+				"elements":
+						[
+						     
+							{"type":"submenu",
+							"elements":
+								[
+									 
+									{"type":"items","property":{"text":"Principal"}}
+									
+									
+								]
+							
+							}
+							
+							
+						]	
+				},
+				{"type":"elementBr","style":{"color": "transparent"},"property":{"image":"./assets/img/home.png","text":"Inicio","sizex":"100%","sizey":"auto"}},
+				{"type":"elementBr","style":{"color": "transparent"},"property":{"image":"./assets/img/ajustes.png","text":"Ajustes","sizex":"100%","sizey":"auto","posx":"0%","posy":"10px"}},
+				{"type":"elementBr","style":{"color": "transparent"},"property":{"sizex":"100%","sizey":"auto","posx":"0%","posy":"10px"}}
+			
+		]	
+			
+		
+		
+		
+}

@@ -1,0 +1,106 @@
+consulta_acciones
+req:
+{
+opera:10
+date:
+time:
+}
+rsp
+{
+opera:11
+rc:
+descrp:
+data:[
+[id,nombre,dscrip],
+[id,nombre,dscrip],
+[id,nombre,dscrip]
+]
+}
+
+consulta_pcuerpo
+req:
+{
+opera:20
+date:
+time:
+}
+rsp
+{
+opera:21
+rc:
+descrp:
+data:[
+[id,nombre],
+[id,nombre],
+[id,nombre],
+[id,nombre]
+]
+}
+
+consulta_total
+req:
+{
+opera:30
+date:
+time:
+}
+rsp
+{
+opera:31
+rc:
+descrp:
+data:[
+		[id_acc1,[
+				[id_mano,2,4,7],
+				[pie,2,4,7],
+				[cuello,2,4,7]
+		]],
+		[id_acc2,[
+				[mano,2,4,7],
+				[pie,2,4,7],
+				[cuello,2,4,7]
+		]]
+]
+}
+
+Registro:
+req:
+{
+opera: 40,
+date:
+time:
+data:
+[
+	[nombre, descrip,[
+		[id_mano,4,5,4],
+		[id_brazo,4,5,4]
+	]]
+	
+]
+}
+
+rsp:
+{
+opera: 41
+rc:
+dscrip:
+}
+
+Borrar accion
+
+
+req:
+{
+opera: 50
+date:
+time:
+id_accion:
+}
+rsp:
+{
+opera: 51
+rc:
+dscrip:
+}
+
+

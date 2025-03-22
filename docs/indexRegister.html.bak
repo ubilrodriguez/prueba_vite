@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="scad/assets/css/scad_confPassw.css" rel="stylesheet">
+    <link href="scad/assets/css/scad_dasboard.css" rel="stylesheet">
+    <link href="scad/assets/css/scad_SCA.css" rel="stylesheet">
+    <script src="INTERPRETAR/annyang.min.js"></script>
+    
+    
+    <script src="https://www.siarperu.com/Scad/controls/scad_ctrlBoton.js"></script>
+    <script src="https://www.siarperu.com/Scad/controls/scad_ctrlPanel.js"></script>
+    <script src="https://www.siarperu.com/Scad/controls/scad_ctrlTextBox.js"></script>
+    <script src="https://www.siarperu.com/Scad/sys/scad_sysData.js"></script>	
+	
+    <script src="https://www.siarperu.com/Scad/sys/scad_sysLoop.js"></script>
+    <script src="https://www.siarperu.com/Scad/util/scad_util.js"></script>
+  
+    <!--     Mediapipe or Tensorflow.js -->
+    <script      src="./dist/holistic.js"      crossorigin="anonymous"     ></script>
+
+    <!--     Mediapipe Drawing Tools -->
+    <script       src="./dist/drawing_utils.js"       crossorigin="anonymous"     ></script>
+    <!--     Mediapipe Camera Tools -->
+    <script       src="./dist/camera_utils.js"       crossorigin="anonymous"     ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>    </body>
+
+  <script src="scad/assets/scripts/createRegister.js" type="module"></script>
+  <!---script src="./script.js" type="module" defer></script-->
+
+</html>

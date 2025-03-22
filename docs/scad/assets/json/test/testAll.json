@@ -1,0 +1,34 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},
+			{"type":"css","url": "assets/scad/css/myStyle.css"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},
+			{"type":"js", "url": "assets/script/test/testAll.js"}
+	
+		
+		],
+		
+	"execute":["showMaps","showFacial","showRegister"],
+		
+	"elements":
+		[
+			{"type":"panel","name":"Padre", "id":"1","style":{"color": "pink"},"property":{"absolute":"true"},
+			
+			"elements":
+				[
+					{"type":"button","class":"btn-2","id":"mapas","property":{"text":"mapas","posx":"50px","posy":"50px","absolute":"true"}},
+					{"type":"button","class":"btn-2","id":"facial","property":{"text":"facial","posx":"150px","posy":"50px","absolute":"true"}},
+					{"type":"button","class":"btn-2","id":"register","property":{"text":"Register","posx":"250px","posy":"50px","absolute":"true"}}
+				
+				]
+			}
+		]	
+			
+		
+		
+		
+}

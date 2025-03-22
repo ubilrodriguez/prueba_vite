@@ -1,0 +1,81 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	"logo":"https://siarperu.com//Proyectos/deteccion_rostro/img/logo.png",
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls234.css"},
+			{"type":"css","url": "assets/css/principal.css"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},		
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlLabel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBannerV.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlElementM.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlItems.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlMenu.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlSubMenu.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlScreenShot.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlVoice.js"},
+			{"type":"js", "url": "assets/scad/scripts/library/html2canvas/html2canvas.min.js"},
+			{"type":"js", "url": "assets/scad/scripts/sys/scad_sysData.js"}
+	
+		
+		],
+	"elements":
+		[
+			{"type":"panel","name":"Padre", "id":"12","style":{"color": "blue","absolute":"true"},
+			
+			"elements":
+				[
+					{"type":"panel","class":"work-area","src":"assets/json/scad_datosPersonales.json","name":"Padre", "id":"12","style":{"color": "#161616"},"property":{"absolute":"true","sizex":"100%","sizey":"100%"}},
+					{"type":"bannerV","class":"panBanner","style":{"fadingColor":["right","#49545F","#85929E"],"colorIcon":"#F8F9F9"},"property":{"sizex":"70px","sizey":"100%","hideMenu":"true"},
+					"elements":
+						[
+						     {"type":"panel", "id":"12","style":{"color": "transparent"},"property":{"sizex":"100%","sizey":"70px","posx":"0%","posy":"0%"},
+							 "elements":
+								[
+									{"type":"panel","class":"panelfoto","style":{"color": "red"},"property":{"absolute":"true","sizex":"55px","sizey":"55px","posx":"10px","posy":"7px","image":"./assets/img/foto-perfil.jpg","img-repeat":"1"}}
+																	
+								]	
+							 
+							 },
+						     {"type":"panel", "id":"12","style":{"color": "transparent"},"property":{"sizex":"100%","sizey":"auto","posx":"0%","posy":"10px"},
+							 "elements":
+								[
+									{"type":"menu","src":"assets/php/menu.php"}
+																	
+								]	
+								
+							 }
+							
+							
+							
+						]	
+					},
+					{"type":"panel","class":"tool_panel","style":{"color":"transparent"},"property":{"sizex":"50px","sizey":"auto"},
+					"elements":
+								[
+									{"type":"panel","class":"panel-capt","style":{"color":"#7D3C98"},"property":{"sizex":"35px","sizey":"35px","posx":"0%","posy":"5px"},
+									"elements":
+												[
+													{"type":"screenshot","class":"capture","id":"screen_id","property":{"image":"./assets/img/img_captura.png","sizex":"80%","sizey":"80%","posx":"10%","posy":"10%"}}
+																					
+												]	},
+							
+									{"type":"voice","class":"microfono","id":"screen_id","property":{"sizex":"35px","sizey":"35px","posx":"0","posy":"15%"}}
+																					
+																				
+					]}
+					
+					
+					
+					
+					
+				]
+			}
+		]	
+			
+		
+		
+		
+}

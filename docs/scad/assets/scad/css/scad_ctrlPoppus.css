@@ -1,0 +1,58 @@
+body{
+	margin:0;
+	padding:0;
+}
+
+.scad_winBackPoppus{
+	animation: 1s ease-out 0s 1 panelFondoPoppus;
+	z-index:1;
+}
+
+@keyframes panelFondoPoppus {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.scad_contPoppus{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    border: none;
+    z-index: 80;
+    width: 60%;
+    height: 70%;
+    background-color: #fff;
+    margin: 102px 1px 10px 20%;
+	overflow:auto;
+	border-radius:8px;
+	overflow: hidden;
+	animation: 1s ease-out 0s 1 panelFondoPoppus;
+}
+
+
+.scad_btnExit{
+	
+	height:40px;
+	width:40px;
+	border:none;
+	margin-left:94%;
+	background:transparent;
+	font-size:20px;
+	font-weight: 100;
+}
+
+.contPoppusHead
+{
+	position:absolute;
+	
+}
+.scad_btnExit:hover
+{
+	
+	font-size:30px;
+}
+
