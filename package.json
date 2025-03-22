@@ -1,18 +1,60 @@
 {
-  "name": "my-vue-app",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "name": "kalidokit",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite docs",
+    "build": "vite build && npm run build:lib",
+    "build:lib": "tsc -p .",
+    "serve": "vite",
+    "prepare": "npm run build",
+    "fmt": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "vue": "^3.5.13"
+    "@mediapipe/camera_utils": "^0.3.1632432234",
+    "@mediapipe/drawing_utils": "^0.3.1620248257",
+    "@mediapipe/holistic": "^0.5.1635989137",
+    "@pixiv/three-vrm": "^0.6.7",
+    "express": "^4.17.3",
+    "kalidokit": "^1.1.5",
+    "mssql": "^8.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.2.0"
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "prettier": "^2.4.1",
+    "rollup-plugin-friendly-type-imports": "^1.0.1",
+    "typescript": "^4.4.4",
+    "vite": "2.6.0",
+    "vite-plugin-banner": "0.1.3",
+    "vite-plugin-ts": "^1.1.8"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "trailingComma": "es5",
+    "printWidth": 120,
+    "singleQuote": false
+  },
+  "description": "Blendshape and kinematics calculator for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.",
+  "bugs": {
+    "url": "https://github.com/yeemachine/kalidokit/issues"
+  },
+  "homepage": "https://github.com/yeemachine/kalidokit#readme",
+  "keywords": [
+    "mediapipe",
+    "tensorflow",
+    "face-tracking",
+    "pose-tracking",
+    "finger-tracking",
+    "detection"
+  ],
+  "author": "yeemachine",
+  "license": "MIT",
+  "year": "2020-2021",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "directories": {
+    "doc": "docs"
   }
 }
