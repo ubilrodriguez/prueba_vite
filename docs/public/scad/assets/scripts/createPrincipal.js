@@ -3,7 +3,7 @@ function scad_PagePrincipal()
 {
 	createPagePrincipal();
 };
-/*========================================================*/
+/*===========================================hhhhhj=============*/
 function createPagePrincipal()
 {
 	var contGrnl=new scad_ctrlPanel(document.body,"id","class");
