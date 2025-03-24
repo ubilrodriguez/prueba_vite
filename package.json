@@ -5,6 +5,7 @@
     "dev": "vite docs",
     "build": "vite build && npm run build:lib",
     "build:lib": "tsc -p .",
+    "start": "node server.js",  
     "serve": "vite",
     "prepare": "npm run build",
     "fmt": "prettier --write 'src/**/*.ts'"
@@ -16,7 +17,7 @@
     "@pixiv/three-vrm": "^0.6.7",
     "@types/three": "^0.137.0",
     "esbuild": "^0.25.1",
-    "express": "^4.17.3",
+    "express": "^4.21.2",
     "kalidokit": "^1.1.5",
     "mssql": "^8.1.0",
     "three": "^0.137.5"
