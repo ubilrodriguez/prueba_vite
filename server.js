@@ -1,15 +1,13 @@
-const express = require('express');
+import express from 'express'; // <-- Cambia aquí
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Sirve los archivos estáticos de la carpeta "dist"
 app.use(express.static('dist'));
 
-// Maneja todas las rutas para SPAs
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/dist/index.html');
+  res.sendFile(process.cwd() + '/dist/index.html'); // <-- Usa process.cwd()
 });
 
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor en http://localhost:${port}`);
 });
