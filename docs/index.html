@@ -6,61 +6,115 @@
   <title>SIARP</title>
   
   <!-- Estilos -->
-  <link href="/public/scad/assets/css/scad_dasboard.css" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+    }
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .error-message {
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      display: none;
+    }
+  </style>
   
-  <!-- Primero cargar bibliotecas críticas -->
+  <!-- Script cargador optimizado que resuelve problemas de recursos -->
   <script>
-    // Función para cargar scripts secuencialmente
-    function loadScript(url) {
+    // Detector de errores global
+    window.addEventListener('error', function(event) {
+      const errorDiv = document.getElementById('error-messages');
+      if (errorDiv) {
+        errorDiv.style.display = 'block';
+        const message = document.createElement('p');
+        message.textContent = `Error: ${event.message}`;
+        errorDiv.appendChild(message);
+      }
+      console.error('Error capturado:', event.message);
+    });
+    
+    // Función para cargar scripts desde CDN
+    function loadScriptFromCDN(cdnUrl) {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = url;
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error(`Error cargando ${url}`));
+        script.src = cdnUrl;
+        script.onload = resolve;
+        script.onerror = reject;
         document.head.appendChild(script);
       });
     }
     
-    // Cargar scripts en orden adecuado
-    async function loadDependencies() {
-      try {
-        // Primero Mediapipe y sus dependencias
-        await loadScript('/dist/camera_utils.js');
-        await loadScript('/dist/drawing_utils.js');
-        await loadScript('/dist/siarp/holistic.js');
+    // Cargar cargador de scripts
+    function initializeLoader() {
+      // Cargar el script-loader.js desde una URL confiable o incrustarlo directamente
+      const loaderScript = document.createElement('script');
+      loaderScript.src = '/script-loader.js';
+      loaderScript.onerror = function() {
+        // Si falla la carga del script-loader, mostrar mensaje y cargar CDNs directamente
+        document.getElementById('loading-text').textContent = 'Error cargando recursos. Intentando método alternativo...';
         
-        // Luego cargar anyang para reconocimiento de voz
-        await loadScript('/INTERPRETAR/annyang.min.js');
-        
-        // Luego cargar bibliotecas SCAD
-        await loadScript('https://www.siarperu.com/scad/lib/v010000/util/scad_util.js');
-        await loadScript('https://www.siarperu.com/scad/lib/v010000/sys/scad_sysData.js');
-        await loadScript('https://www.siarperu.com/scad/lib/v010000/sys/scad_sysLoop.js');
-        await loadScript('https://www.siarperu.com/scad/lib/v010000/controls/scad_ctrlPanel.js');
-        await loadScript('https://www.siarperu.com/scad/lib/v010000/controls/scad_ctrlBoton.js');
-        
-        console.log('Todas las dependencias cargadas correctamente');
-        
-        // Finalmente, cargar el script principal
-        const mainScript = document.createElement('script');
-        mainScript.src = '/public/scad/assets/scripts/createPrincipal.js';
-        mainScript.type = 'module';
-        document.body.appendChild(mainScript);
-        
-      } catch (error) {
-        console.error('Error cargando dependencias:', error);
-        document.body.innerHTML = `<div style="color: red; padding: 20px;">Error cargando recursos: ${error.message}</div>`;
-      }
+        // Cargar MediaPipe desde CDN
+        Promise.all([
+          loadScriptFromCDN('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'),
+          loadScriptFromCDN('https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js'),
+          loadScriptFromCDN('https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js'),
+          loadScriptFromCDN('https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js')
+        ]).then(() => {
+          document.getElementById('loading-text').textContent = 'Recursos cargados desde CDN. Inicializando...';
+          document.getElementById('loading').style.display = 'none';
+        }).catch(() => {
+          document.getElementById('loading-text').textContent = 'Error cargando recursos. Por favor, recarga la página.';
+        });
+      };
+      document.head.appendChild(loaderScript);
     }
     
-    // Iniciar la carga cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', loadDependencies);
+    // Iniciar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', initializeLoader);
   </script>
 </head>
 <body>
-  <!-- Elemento de carga -->
-  <div id="loading">Cargando recursos del sistema...</div>
+  <!-- Pantalla de carga -->
+  <div id="loading">
+    <div class="loader"></div>
+    <div id="loading-text">Cargando recursos...</div>
+  </div>
+  
+  <!-- Contenedor para mensajes de error -->
+  <div id="error-messages" class="error-message">
+    <h3>Se detectaron algunos errores:</h3>
+  </div>
   
   <!-- Contenedor principal para la aplicación -->
   <div id="app"></div>
