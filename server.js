@@ -2,6 +2,8 @@ import express from 'express'; // <-- Cambia aquí
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.static("public")); // Para archivos VRM
+app.use("/dist", express.static("dist")); // Para JS en /dist
 app.use(express.static('dist'));
 // En server.js, asegúrate de servir archivos estáticos ANTES de la ruta comodín
 app.use(express.static('dist', { 
@@ -13,7 +15,7 @@ app.use(express.static('dist', {
   app.get('*', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
   });
-  
+
 app.get('*', (req, res) => {
   res.sendFile(process.cwd() + '/dist/index.html'); // <-- Usa process.cwd()
 });

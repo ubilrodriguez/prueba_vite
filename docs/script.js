@@ -53,7 +53,7 @@ async function siarp_loadDataVMR()
 		}
 	,null,null,null,null,null);
     ptr_acc.setSendType("json");
-	var ptr_part=new scad_sysData('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',"./siarp_acciones.json","POST",
+	var ptr_part=new scad_sysData('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',"/siarp_acciones.json","POST",
 	'{"opera":20,"date":0,"time":0}',
 	function(data){
 		//console.log(data);
