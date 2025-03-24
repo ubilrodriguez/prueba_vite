@@ -10,6 +10,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware para logs de solicitudes
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -38,14 +44,44 @@ app.use((req, res, next) => {
   next();
 });
 
+// Endpoint específico para Ashtra.vrm
+app.get('/Ashtra.vrm', (req, res) => {
+  const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
+  console.log(`Intentando servir Ashtra.vrm desde: ${avatarPath}`);
+  
+  if (fs.existsSync(avatarPath)) {
+    console.log('Archivo Ashtra.vrm encontrado, enviando...');
+    res.header('Content-Type', 'model/vrm');
+    res.sendFile(avatarPath);
+  } else {
+    console.log('ERROR: Archivo Ashtra.vrm NO encontrado en: ' + avatarPath);
+    res.status(404).json({ error: 'Avatar Ashtra.vrm no encontrado' });
+  }
+});
+
+// Endpoint para verificar la existencia del archivo
+app.get('/check-avatar', (req, res) => {
+  const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
+  const exists = fs.existsSync(avatarPath);
+  
+  res.json({
+    status: exists ? 'ok' : 'error',
+    message: exists ? 'Avatar encontrado' : 'Avatar no encontrado',
+    path: avatarPath
+  });
+});
+
 // Servir script.js con manejo especial
 app.get('/script.js', (req, res) => {
   res.header('Content-Type', 'application/javascript');
   const scriptPath = path.join(__dirname, 'public', 'script.js');
+  console.log(`Buscando script.js en: ${scriptPath}`);
   
   if (fs.existsSync(scriptPath)) {
+    console.log('script.js encontrado, enviando archivo');
     res.sendFile(scriptPath);
   } else {
+    console.log('ERROR: script.js NO encontrado');
     res.status(404).send('console.error("Error: script.js no encontrado");');
   }
 });
@@ -109,13 +145,16 @@ app.use('/INTERPRETAR', express.static(path.join(__dirname, 'INTERPRETAR')));
 app.use('/models', express.static(path.join(__dirname, 'models')));
 app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 
-// Endpoint específico para cargar el avatar (ajusta la ruta según tu estructura)
+// Endpoint específico para cargar el avatar
 app.get('/avatar/:filename', (req, res) => {
   const filename = req.params.filename;
   const ext = path.extname(filename).toLowerCase();
   const avatarPath = path.join(__dirname, 'avatars', filename);
   
+  console.log(`Solicitando avatar: ${filename} en ruta: ${avatarPath}`);
+  
   if (fs.existsSync(avatarPath)) {
+    console.log(`Avatar encontrado: ${avatarPath}`);
     // Establecer el tipo MIME correcto según la extensión
     if (ext === '.vrm') {
       res.header('Content-Type', 'model/vrm');
@@ -129,6 +168,7 @@ app.get('/avatar/:filename', (req, res) => {
     
     res.sendFile(avatarPath);
   } else {
+    console.log(`Avatar NO encontrado: ${avatarPath}`);
     res.status(404).json({ error: 'Avatar no encontrado' });
   }
 });
@@ -171,12 +211,16 @@ app.get('/avatar.json', (req, res) => {
   res.header('Content-Type', 'application/json');
   
   const avatarConfigPath = path.join(__dirname, 'avatars', 'avatar.json');
+  console.log(`Buscando configuración de avatar en: ${avatarConfigPath}`);
+  
   if (fs.existsSync(avatarConfigPath)) {
+    console.log('Configuración de avatar encontrada, enviando archivo');
     res.sendFile(avatarConfigPath);
   } else {
-    // Si no existe, enviar una configuración básica
+    console.log('Configuración de avatar NO encontrada, enviando configuración por defecto');
+    // Si no existe, enviar una configuración básica que apunte a Ashtra.vrm
     res.json({
-      "model": "/avatars/default.vrm",
+      "model": "/public/Ashtra.vrm",
       "settings": {
         "scale": 1.0,
         "position": [0, 0, 0],
@@ -188,6 +232,7 @@ app.get('/avatar.json', (req, res) => {
 
 // Ruta general para archivos estáticos
 app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Ruta comodín como fallback
 app.get('*', (req, res) => {
@@ -198,5 +243,18 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
   console.log(`Ruta de script.js: http://localhost:${port}/script.js`);
-  console.log(`Ruta para acceder a avatar: http://localhost:${port}/avatar/tuavatar.vrm`);
+  console.log(`Ruta para acceder a avatar Ashtra: http://localhost:${port}/public/Ashtra.vrm`);
+  
+  // Verificar la existencia de archivos clave al iniciar
+  const archivosImportantes = [
+    {ruta: path.join(__dirname, 'public', 'Ashtra.vrm'), nombre: 'Avatar Ashtra.vrm'},
+    {ruta: path.join(__dirname, 'dist', 'index.html'), nombre: 'HTML principal'},
+    {ruta: path.join(__dirname, 'public', 'script.js'), nombre: 'Script principal'}
+  ];
+  
+  console.log('Verificando archivos importantes:');
+  archivosImportantes.forEach(archivo => {
+    const existe = fs.existsSync(archivo.ruta);
+    console.log(`- ${archivo.nombre}: ${existe ? 'EXISTE' : 'NO EXISTE!!!'} (${archivo.ruta})`);
+  });
 });
