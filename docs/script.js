@@ -53,7 +53,7 @@ async function siarp_loadDataVMR()
 		}
 	,null,null,null,null,null);
     ptr_acc.setSendType("json");
-	var ptr_part=new scad_sysData('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',"/siarp_acciones.json","POST",
+	var ptr_part=new scad_sysData("/siarp_acciones.json","POST",
 	'{"opera":20,"date":0,"time":0}',
 	function(data){
 		//console.log(data);
@@ -83,7 +83,13 @@ async function siarp_loadDataVMR()
 	=coor;*/
 	       
 }
-siarp_loadDataVMR();
+// siarp_loadDataVMR();
+
+async function init() {
+    await siarp_loadDataVMR();
+    // Resto de inicializaciones
+}
+init();
 // //Import Helper Functions from Kalidokit
 
 const clamp = Kalidokit.Utils.clamp;
@@ -208,7 +214,9 @@ scad_sysLoop(()=>
 }, 1000, null, true, null, null,document.body);
 /*===========================================*/
 export function siarp_getDataVRM()
+
 {
+     if (!currentVrm || !currentVrm.humanoid) return [];
 	var bones_vrm=currentVrm.humanoid.humanBones;
 	//console.log(bones_vrm);
 	var part=gral_json_partesCuerpo.data;
@@ -367,6 +375,10 @@ loader.load("./public/Ashtra.vrm",
         VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
         VRM.from(gltf).then((vrm) => {
+            if (!vrm || !vrm.humanoid) {
+                throw new Error('Modelo VRM inválido');
+            }
+            currentVrm = vrm;
             scene.add(vrm.scene);
             currentVrm = vrm;
             console.log(vrm);
@@ -375,6 +387,8 @@ loader.load("./public/Ashtra.vrm",
 			
 			siarp_posInitial();
 			
+        }).catch((error) => {
+            console.error('Error cargando VRM:', error);
         });
     },
 
