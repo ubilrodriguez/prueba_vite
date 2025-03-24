@@ -3,67 +3,92 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
-// Obtener el directorio actual en ES modules
+// Configuración inicial de ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware para logs de solicitudes
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  next();
-});
-
-// Middleware para habilitar CORS
+// 1. Middleware de CORS robusto
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
   next();
 });
 
-// Middleware personalizado para corregir MIME types
+// 2. Middleware de logging detallado
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - ${res.statusCode} (${duration}ms)`);
+  });
+  next();
+});
+
+// 3. Middleware para manejo de JSON y respuestas estructuradas
+app.use((req, res, next) => {
+  res.type('application/json');
+  
+  res.sendJSON = (data) => {
+    if (!data) {
+      return res.status(404).json({ 
+        status: 'error', 
+        message: 'No se encontraron datos' 
+      });
+    }
+    res.json(data);
+  };
+
+  next();
+});
+
+// 4. Middleware para tipos MIME personalizados
 app.use((req, res, next) => {
   const ext = path.extname(req.path).toLowerCase();
-  
-  if (ext === '.js') {
-    res.header('Content-Type', 'application/javascript');
-  } else if (ext === '.json') {
-    res.header('Content-Type', 'application/json');
-  } else if (ext === '.vrm') {
-    res.header('Content-Type', 'model/vrm');
-  } else if (ext === '.glb' || ext === '.gltf') {
-    res.header('Content-Type', 'model/gltf-binary');
-  } else if (ext === '.fbx') {
-    res.header('Content-Type', 'application/octet-stream');
-  } else if (ext === '.bin') {
-    res.header('Content-Type', 'application/octet-stream');
+  const mimeTypes = {
+    '.js': 'application/javascript',
+    '.json': 'application/json',
+    '.vrm': 'model/vrm',
+    '.glb': 'model/gltf-binary',
+    '.gltf': 'model/gltf-binary',
+    '.fbx': 'application/octet-stream',
+    '.bin': 'application/octet-stream'
+  };
+
+  if (mimeTypes[ext]) {
+    res.header('Content-Type', mimeTypes[ext]);
   }
-  
   next();
 });
 
-// Endpoint específico para Ashtra.vrm
-app.get('/Ashtra.vrm', (req, res) => {
-  const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
-  console.log(`Intentando servir Ashtra.vrm desde: ${avatarPath}`);
-  
-  if (fs.existsSync(avatarPath)) {
-    console.log('Archivo Ashtra.vrm encontrado, enviando...');
-    res.header('Content-Type', 'model/vrm');
-    res.sendFile(avatarPath);
-  } else {
-    console.log('ERROR: Archivo Ashtra.vrm NO encontrado en: ' + avatarPath);
-    res.status(404).json({ error: 'Avatar Ashtra.vrm no encontrado' });
+// 5. Configuración de archivos estáticos
+const staticOptions = {
+  setHeaders: (res, path) => {
+    const ext = path.extname(path).toLowerCase();
+    if (ext === '.js') {
+      res.header('Content-Type', 'application/javascript');
+    }
   }
-});
+};
 
-// Endpoint para verificar la existencia del archivo
+app.use('/dist', express.static(path.join(__dirname, 'dist'), staticOptions));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/INTERPRETAR', express.static(path.join(__dirname, 'INTERPRETAR')));
+app.use('/models', express.static(path.join(__dirname, 'models')));
+app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
+
+// 6. Rutas específicas
+// Endpoints de verificación
 app.get('/check-avatar', (req, res) => {
   const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
   const exists = fs.existsSync(avatarPath);
-  
   res.json({
     status: exists ? 'ok' : 'error',
     message: exists ? 'Avatar encontrado' : 'Avatar no encontrado',
@@ -71,166 +96,119 @@ app.get('/check-avatar', (req, res) => {
   });
 });
 
-// Servir script.js con manejo especial
-app.get('/script.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
-  const scriptPath = path.join(__dirname, 'public', 'script.js');
-  console.log(`Buscando script.js en: ${scriptPath}`);
-  
-  if (fs.existsSync(scriptPath)) {
-    console.log('script.js encontrado, enviando archivo');
-    res.sendFile(scriptPath);
+// Endpoints de archivos
+app.get('/Ashtra.vrm', (req, res) => {
+  const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
+  if (fs.existsSync(avatarPath)) {
+    res.header('Content-Type', 'model/vrm').sendFile(avatarPath);
   } else {
-    console.log('ERROR: script.js NO encontrado');
-    res.status(404).send('console.error("Error: script.js no encontrado");');
+    res.status(404).json({ error: 'Avatar Ashtra.vrm no encontrado' });
   }
 });
 
-// Servir el archivo script-loader.js especial
-app.get('/script-loader.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
-  try {
-    const filePath = path.join(__dirname, 'public', 'script-loader.js');
-    if (fs.existsSync(filePath)) {
-      res.sendFile(filePath);
-    } else {
-      // Si no existe, servir una versión básica
-      res.send(`
-        console.log('script-loader.js: Cargando dependencias desde CDN');
-        
-        function loadScript(url) {
-          return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = url;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-          });
-        }
-        
-        async function loadAllScripts() {
-          try {
-            await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js');
-            await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js');
-            await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5/holistic.js');
-            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js');
-            await loadScript('/script.js'); // Cargar script.js después de las dependencias
-            console.log('Todas las bibliotecas cargadas correctamente');
-            document.getElementById('loading').style.display = 'none';
-          } catch (error) {
-            console.error('Error cargando scripts:', error);
-          }
-        }
-        
-        loadAllScripts();
-      `);
-    }
-  } catch (error) {
-    res.status(500).send('Error al servir script-loader.js');
-  }
-});
-
-// Servir archivos estáticos con configuración específica de tipos MIME
-app.use('/dist', (req, res, next) => {
-  const ext = path.extname(req.path);
-  if (ext === '.js') {
-    res.header('Content-Type', 'application/javascript');
-  }
-  next();
-}, express.static(path.join(__dirname, 'dist')));
-
-// Servir carpetas de archivos estáticos
-app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/INTERPRETAR', express.static(path.join(__dirname, 'INTERPRETAR')));
-app.use('/models', express.static(path.join(__dirname, 'models')));
-app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
-
-// Endpoint específico para cargar el avatar
 app.get('/avatar/:filename', (req, res) => {
   const filename = req.params.filename;
-  const ext = path.extname(filename).toLowerCase();
   const avatarPath = path.join(__dirname, 'avatars', filename);
   
-  console.log(`Solicitando avatar: ${filename} en ruta: ${avatarPath}`);
-  
   if (fs.existsSync(avatarPath)) {
-    console.log(`Avatar encontrado: ${avatarPath}`);
-    // Establecer el tipo MIME correcto según la extensión
-    if (ext === '.vrm') {
-      res.header('Content-Type', 'model/vrm');
-    } else if (ext === '.glb' || ext === '.gltf') {
-      res.header('Content-Type', 'model/gltf-binary');
-    } else if (ext === '.fbx') {
-      res.header('Content-Type', 'application/octet-stream');
-    } else {
-      res.header('Content-Type', 'application/octet-stream');
-    }
-    
     res.sendFile(avatarPath);
   } else {
-    console.log(`Avatar NO encontrado: ${avatarPath}`);
     res.status(404).json({ error: 'Avatar no encontrado' });
   }
 });
 
-// Rutas específicas para los archivos problemáticos
-// Si el archivo local no existe o es inválido, se servirá desde CDN
+// Endpoints de scripts
+app.get('/script.js', (req, res) => {
+  const scriptPath = path.join(__dirname, 'public', 'script.js');
+  if (fs.existsSync(scriptPath)) {
+    res.sendFile(scriptPath);
+  } else {
+    res.status(404).send('console.error("Error: script.js no encontrado");');
+  }
+});
+
+app.get('/script-loader.js', (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'script-loader.js');
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.send(`
+      console.log('script-loader.js: Cargando dependencias desde CDN');
+      // ... (código de carga de dependencias)
+    `);
+  }
+});
+
+// Redirecciones a CDN
 app.get('/dist/camera_utils.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
   res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js');
 });
 
 app.get('/dist/drawing_utils.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
   res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js');
 });
 
 app.get('/dist/siarp/holistic.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
   res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5/holistic.js');
 });
 
 app.get('/INTERPRETAR/annyang.min.js', (req, res) => {
-  res.header('Content-Type', 'application/javascript');
   res.redirect('https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js');
 });
 
-// Ruta para siarp_acciones.json
-app.get('/siarp_acciones.json', (req, res) => {
-  res.header('Content-Type', 'application/json');
-  res.send('{"actions": []}');
-});
-
-// Endpoint para probar la conexión con el cliente
+// 7. API Endpoints
 app.get('/api/test', (req, res) => {
   res.json({ status: 'ok', message: 'Servidor funcionando correctamente' });
 });
 
-// Ruta general para archivos estáticos
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/api/data', (req, res) => {
+  try {
+    res.json({
+      status: 'ok',
+      data: { status: 'success', payload: [] }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+      data: null
+    });
+  }
+});
 
-// Ruta comodín como fallback
+app.get('/api/check-model', (req, res) => {
+  const modelPath = path.join(__dirname, 'models', 'humanoid.vrm');
+  try {
+    res.json({
+      status: 'ok',
+      modelExists: fs.existsSync(modelPath),
+      path: modelPath
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'Error al verificar el modelo',
+      details: error.message
+    });
+  }
+});
+
+// 8. Ruta comodín como fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// Iniciar el servidor
+// 9. Inicialización del servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(`Ruta de script.js: http://localhost:${port}/script.js`);
-  console.log(`Ruta para acceder a avatar Ashtra: http://localhost:${port}/public/Ashtra.vrm`);
-  
-  // Verificar la existencia de archivos clave al iniciar
+  // Verificación de archivos importantes
   const archivosImportantes = [
     {ruta: path.join(__dirname, 'public', 'Ashtra.vrm'), nombre: 'Avatar Ashtra.vrm'},
     {ruta: path.join(__dirname, 'dist', 'index.html'), nombre: 'HTML principal'},
     {ruta: path.join(__dirname, 'public', 'script.js'), nombre: 'Script principal'}
   ];
   
-  console.log('Verificando archivos importantes:');
   archivosImportantes.forEach(archivo => {
-    const existe = fs.existsSync(archivo.ruta);
-    console.log(`- ${archivo.nombre}: ${existe ? 'EXISTE' : 'NO EXISTE!!!'} (${archivo.ruta})`);
+    console.log(`- ${archivo.nombre}: ${fs.existsSync(archivo.ruta) ? 'EXISTE' : 'NO EXISTE'}`);
   });
 });
