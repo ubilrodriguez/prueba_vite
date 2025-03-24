@@ -10,7 +10,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 1. Middleware de CORS robusto
+// 1. Middlewares esenciales
+// --------------------------
+// CORS robusto
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -22,34 +24,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// 2. Middleware de logging detallado
+// Logging detallado
 app.use((req, res, next) => {
   const start = Date.now();
   res.on('finish', () => {
     const duration = Date.now() - start;
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - ${res.statusCode} (${duration}ms)`);
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - ${res.statusCode} (${duration}ms)`);
   });
   next();
 });
 
-// 3. Middleware para manejo de JSON y respuestas estructuradas
-app.use((req, res, next) => {
-  res.type('application/json');
-  
-  res.sendJSON = (data) => {
-    if (!data) {
-      return res.status(404).json({ 
-        status: 'error', 
-        message: 'No se encontraron datos' 
-      });
-    }
-    res.json(data);
-  };
-
-  next();
-});
-
-// 4. Middleware para tipos MIME personalizados
+// Configuración de tipos MIME personalizados
 app.use((req, res, next) => {
   const ext = path.extname(req.path).toLowerCase();
   const mimeTypes = {
@@ -68,41 +53,68 @@ app.use((req, res, next) => {
   next();
 });
 
-// 5. Configuración de archivos estáticos
-const staticOptions = {
-  setHeaders: (res, path) => {
-    const ext = path.extname(path).toLowerCase();
+// Middleware de respuestas JSON estructuradas
+app.use((req, res, next) => {
+  res.sendJSON = (data, statusCode = 200) => {
+    res.status(statusCode).json({
+      status: statusCode === 200 ? 'ok' : 'error',
+      data: data || null,
+      timestamp: new Date().toISOString()
+    });
+  };
+  
+  res.sendError = (message, statusCode = 500) => {
+    res.status(statusCode).json({
+      status: 'error',
+      message: message,
+      code: statusCode
+    });
+  };
+  next();
+});
+
+// 2. Configuración de archivos estáticos
+// --------------------------------------
+const staticConfig = {
+  setHeaders: (res, filePath) => {
+    const ext = path.extname(filePath);
     if (ext === '.js') {
       res.header('Content-Type', 'application/javascript');
     }
   }
 };
 
-app.use('/dist', express.static(path.join(__dirname, 'dist'), staticOptions));
+app.use('/dist', express.static(path.join(__dirname, 'dist'), staticConfig));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/INTERPRETAR', express.static(path.join(__dirname, 'INTERPRETAR')));
 app.use('/models', express.static(path.join(__dirname, 'models')));
 app.use('/avatars', express.static(path.join(__dirname, 'avatars')));
 
-// 6. Rutas específicas
+// 3. Endpoints específicos
+// -------------------------
 // Endpoints de verificación
 app.get('/check-avatar', (req, res) => {
   const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
-  const exists = fs.existsSync(avatarPath);
-  res.json({
-    status: exists ? 'ok' : 'error',
-    message: exists ? 'Avatar encontrado' : 'Avatar no encontrado',
-    path: avatarPath
-  });
+  try {
+    const exists = fs.existsSync(avatarPath);
+    res.sendJSON({
+      exists: exists,
+      path: avatarPath,
+      message: exists ? 'Avatar disponible' : 'Avatar no encontrado'
+    });
+  } catch (error) {
+    res.sendError(`Error verificando avatar: ${error.message}`, 500);
+  }
 });
 
-// Endpoints de archivos
+// Endpoints de modelos y avatares
 app.get('/Ashtra.vrm', (req, res) => {
   const avatarPath = path.join(__dirname, 'public', 'Ashtra.vrm');
   if (fs.existsSync(avatarPath)) {
-    res.header('Content-Type', 'model/vrm').sendFile(avatarPath);
+    console.log(`Sirviendo archivo VRM desde: ${avatarPath}`);
+    res.sendFile(avatarPath);
   } else {
-    res.status(404).json({ error: 'Avatar Ashtra.vrm no encontrado' });
+    res.sendError('Archivo Ashtra.vrm no encontrado', 404);
   }
 });
 
@@ -110,20 +122,23 @@ app.get('/avatar/:filename', (req, res) => {
   const filename = req.params.filename;
   const avatarPath = path.join(__dirname, 'avatars', filename);
   
-  if (fs.existsSync(avatarPath)) {
-    res.sendFile(avatarPath);
-  } else {
-    res.status(404).json({ error: 'Avatar no encontrado' });
+  if (!fs.existsSync(avatarPath)) {
+    return res.sendError('Avatar no encontrado', 404);
   }
+  
+  console.log(`Sirviendo avatar: ${filename}`);
+  res.sendFile(avatarPath);
 });
 
 // Endpoints de scripts
 app.get('/script.js', (req, res) => {
   const scriptPath = path.join(__dirname, 'public', 'script.js');
   if (fs.existsSync(scriptPath)) {
+    console.log('Enviando script.js local');
     res.sendFile(scriptPath);
   } else {
-    res.status(404).send('console.error("Error: script.js no encontrado");');
+    console.warn('script.js no encontrado, enviando respuesta alternativa');
+    res.sendError('Script principal no disponible', 404);
   }
 });
 
@@ -133,82 +148,123 @@ app.get('/script-loader.js', (req, res) => {
     res.sendFile(filePath);
   } else {
     res.send(`
-      console.log('script-loader.js: Cargando dependencias desde CDN');
-      // ... (código de carga de dependencias)
+      console.log('Cargando dependencias desde CDN...');
+      async function loadDependencies() {
+        try {
+          await Promise.all([
+            loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js'),
+            loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js'),
+            loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5/holistic.js'),
+            loadScript('https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js')
+          ]);
+          console.log('Dependencias cargadas');
+          document.getElementById('loading').style.display = 'none';
+        } catch(error) {
+          console.error('Error cargando dependencias:', error);
+        }
+      }
+
+      function loadScript(url) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = url;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      loadDependencies();
     `);
   }
 });
 
 // Redirecciones a CDN
-app.get('/dist/camera_utils.js', (req, res) => {
-  res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js');
+const cdnRedirects = {
+  '/dist/camera_utils.js': 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js',
+  '/dist/drawing_utils.js': 'https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js',
+  '/dist/siarp/holistic.js': 'https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5/holistic.js',
+  '/INTERPRETAR/annyang.min.js': 'https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js'
+};
+
+Object.entries(cdnRedirects).forEach(([route, url]) => {
+  app.get(route, (req, res) => res.redirect(url));
 });
 
-app.get('/dist/drawing_utils.js', (req, res) => {
-  res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js');
-});
-
-app.get('/dist/siarp/holistic.js', (req, res) => {
-  res.redirect('https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5/holistic.js');
-});
-
-app.get('/INTERPRETAR/annyang.min.js', (req, res) => {
-  res.redirect('https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js');
-});
-
-// 7. API Endpoints
+// 4. API Endpoints
+// ----------------
 app.get('/api/test', (req, res) => {
-  res.json({ status: 'ok', message: 'Servidor funcionando correctamente' });
+  res.sendJSON({ 
+    status: 'active',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
 app.get('/api/data', (req, res) => {
   try {
-    res.json({
-      status: 'ok',
-      data: { status: 'success', payload: [] }
-    });
+    // Simular datos de ejemplo
+    const mockData = {
+      users: [],
+      services: [],
+      lastUpdated: new Date().toISOString()
+    };
+    res.sendJSON(mockData);
   } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: error.message,
-      data: null
-    });
+    res.sendError(error.message, 500);
   }
 });
 
 app.get('/api/check-model', (req, res) => {
   const modelPath = path.join(__dirname, 'models', 'humanoid.vrm');
   try {
-    res.json({
-      status: 'ok',
-      modelExists: fs.existsSync(modelPath),
-      path: modelPath
+    const exists = fs.existsSync(modelPath);
+    res.sendJSON({
+      modelExists: exists,
+      path: modelPath,
+      message: exists ? 'Modelo disponible' : 'Modelo no encontrado'
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: 'Error al verificar el modelo',
-      details: error.message
-    });
+    res.sendError(`Error verificando modelo: ${error.message}`, 500);
   }
 });
 
-// 8. Ruta comodín como fallback
+app.get('/siarp_acciones.json', (req, res) => {
+  res.sendJSON({
+    actions: [],
+    message: 'Endpoint de acciones',
+    documentation: '/api/docs/actions'
+  });
+});
+
+// 5. Manejo de errores y fallback
+// -------------------------------
+app.use((err, req, res, next) => {
+  console.error(`[ERROR] ${err.stack}`);
+  res.sendError('Error interno del servidor', 500);
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// 9. Inicialización del servidor
+// 6. Inicialización del servidor
+// ------------------------------
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-  // Verificación de archivos importantes
-  const archivosImportantes = [
-    {ruta: path.join(__dirname, 'public', 'Ashtra.vrm'), nombre: 'Avatar Ashtra.vrm'},
-    {ruta: path.join(__dirname, 'dist', 'index.html'), nombre: 'HTML principal'},
-    {ruta: path.join(__dirname, 'public', 'script.js'), nombre: 'Script principal'}
+  console.log(`🟢 Servidor activo en http://localhost:${port}`);
+  console.log('🔍 Verificando recursos críticos:');
+
+  const criticalFiles = [
+    { path: 'public/Ashtra.vrm', route: '/Ashtra.vrm' },
+    { path: 'dist/index.html', route: '/' },
+    { path: 'public/script.js', route: '/script.js' },
+    { path: 'models/humanoid.vrm', route: '/api/check-model' }
   ];
-  
-  archivosImportantes.forEach(archivo => {
-    console.log(`- ${archivo.nombre}: ${fs.existsSync(archivo.ruta) ? 'EXISTE' : 'NO EXISTE'}`);
+
+  criticalFiles.forEach(file => {
+    const fullPath = path.join(__dirname, file.path);
+    const exists = fs.existsSync(fullPath);
+    const status = exists ? '🟢 EXISTE' : '🔴 NO EXISTE';
+    console.log(`${status} ${file.path.padEnd(20)} => ${file.route}`);
   });
 });
