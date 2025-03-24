@@ -206,30 +206,6 @@ app.get('/api/test', (req, res) => {
   res.json({ status: 'ok', message: 'Servidor funcionando correctamente' });
 });
 
-// Endpoint específico para avatar.json (para configuración del avatar)
-app.get('/avatar.json', (req, res) => {
-  res.header('Content-Type', 'application/json');
-  
-  const avatarConfigPath = path.join(__dirname, 'avatars', 'avatar.json');
-  console.log(`Buscando configuración de avatar en: ${avatarConfigPath}`);
-  
-  if (fs.existsSync(avatarConfigPath)) {
-    console.log('Configuración de avatar encontrada, enviando archivo');
-    res.sendFile(avatarConfigPath);
-  } else {
-    console.log('Configuración de avatar NO encontrada, enviando configuración por defecto');
-    // Si no existe, enviar una configuración básica que apunte a Ashtra.vrm
-    res.json({
-      "model": "/public/Ashtra.vrm",
-      "settings": {
-        "scale": 1.0,
-        "position": [0, 0, 0],
-        "rotation": [0, 0, 0]
-      }
-    });
-  }
-});
-
 // Ruta general para archivos estáticos
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'public')));
