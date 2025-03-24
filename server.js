@@ -215,25 +215,30 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(`Ruta de script.js: http://localhost:${port}/script.js`);
-  console.log(`Ruta para acceder a avatar Ashtra: http://localhost:${port}/public/Ashtra.vrm`);
-  
-  // Verificar la existencia de archivos clave al iniciar
-  const archivosImportantes = [
-    {ruta: path.join(__dirname, 'public', 'Ashtra.vrm'), nombre: 'Avatar Ashtra.vrm'},
-    {ruta: path.join(__dirname, 'dist', 'index.html'), nombre: 'HTML principal'},
-    {ruta: path.join(__dirname, 'public', 'script.js'), nombre: 'Script principal'}
-  ];
-  
-  console.log('Verificando archivos importantes:');
-  archivosImportantes.forEach(archivo => {
-    const existe = fs.existsSync(archivo.ruta);
-    console.log(`- ${archivo.nombre}: ${existe ? 'EXISTE' : 'NO EXISTE!!!'} (${archivo.ruta})`);
-  });
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Añade una ruta de datos específica con manejo de errores
 app.get('/api/data', (req, res) => {
@@ -346,3 +351,54 @@ app.use((req, res, next) => {
   
   next();
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Ruta de script.js: http://localhost:${port}/script.js`);
+  console.log(`Ruta para acceder a avatar Ashtra: http://localhost:${port}/public/Ashtra.vrm`);
+  
+  // Verificar la existencia de archivos clave al iniciar
+  const archivosImportantes = [
+    {ruta: path.join(__dirname, 'public', 'Ashtra.vrm'), nombre: 'Avatar Ashtra.vrm'},
+    {ruta: path.join(__dirname, 'dist', 'index.html'), nombre: 'HTML principal'},
+    {ruta: path.join(__dirname, 'public', 'script.js'), nombre: 'Script principal'}
+  ];
+  
+  console.log('Verificando archivos importantes:');
+  archivosImportantes.forEach(archivo => {
+    const existe = fs.existsSync(archivo.ruta);
+    console.log(`- ${archivo.nombre}: ${existe ? 'EXISTE' : 'NO EXISTE!!!'} (${archivo.ruta})`);
+  });
+});
+
