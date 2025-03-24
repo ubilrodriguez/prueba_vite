@@ -53,7 +53,7 @@ async function siarp_loadDataVMR()
 		}
 	,null,null,null,null,null);
     ptr_acc.setSendType("json");
-	var ptr_part=new scad_sysData('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',"/siarp_acciones.json","POST",
+	var ptr_part=new scad_sysData('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',"./siarp_acciones.json","POST",
 	'{"opera":20,"date":0,"time":0}',
 	function(data){
 		//console.log(data);
@@ -360,7 +360,7 @@ loader.crossOrigin = "anonymous";
 // Import model from URL, add your own model here
 //loader.load(
     //"https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
-loader.load("Ashtra.vrm",
+loader.load("./Ashtra.vrm",
 //loader.load("model_file.binz",
 
     (gltf) => {
