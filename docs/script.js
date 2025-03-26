@@ -446,6 +446,78 @@ async function safeLoadVRMModel() {
     }
 }
 safeLoadVRMModel();
+// Función de diagnóstico exhaustivo
+function debugVRMLoading() {
+    // Verifica importaciones
+    console.log("Verificando librerías:");
+    console.log("THREE disponible:", typeof THREE !== 'undefined');
+    console.log("GLTFLoader disponible:", typeof GLTFLoader !== 'undefined');
+    console.log("VRMLoader disponible:", typeof VRMLoader !== 'undefined');
+
+    // Función de carga con múltiples verificaciones
+    function safeLoadVRM(url) {
+        return new Promise((resolve, reject) => {
+            // Verifica URL
+            if (!url) {
+                reject(new Error("URL de modelo no proporcionada"));
+                return;
+            }
+
+            // Log de intento de carga
+            console.log(`Intentando cargar modelo desde: ${url}`);
+
+            // Usa fetch primero para verificar la respuesta
+            fetch(url)
+                .then(response => {
+                    console.log("Respuesta del servidor:", response);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    console.log("Blob recibido:", blob);
+                    
+                    // Lógica de carga del modelo
+                    const loader = new THREE.GLTFLoader();
+                    
+                    loader.load(
+                        url,
+                        (gltf) => {
+                            console.log("Modelo cargado exitosamente:", gltf);
+                            resolve(gltf);
+                        },
+                        (progress) => {
+                            console.log(`Progreso de carga: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
+                        },
+                        (error) => {
+                            console.error("Error detallado de carga:", error);
+                            reject(error);
+                        }
+                    );
+                })
+                .catch(error => {
+                    console.error("Error en la solicitud inicial:", error);
+                    reject(error);
+                });
+        });
+    }
+
+    // Ejemplo de uso
+    const MODEL_URL = './public/Ashtra.vrm';
+    safeLoadVRM(MODEL_URL)
+        .then(model => {
+            console.log("Modelo VRM cargado completamente:", model);
+            // Aquí puedes añadir la lógica para usar el modelo
+        })
+        .catch(error => {
+            console.error("Fallo en la carga del modelo:", error);
+        });
+}
+
+// Llama a la función de diagnóstico
+debugVRMLoading();
 // Animate Rotation Helper function
 const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
     if (!currentVrm) {
