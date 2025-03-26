@@ -10,6 +10,7 @@ const docsPath = path.resolve(__dirname, "docs");
 // ... (imports previos se mantienen igual)
 
 export default defineConfig(({ command }) => ({
+  
   plugins: [
     Banner(
       `/**\n * ${pkg.name} v${pkg.version}\n * ${pkg.description}\n * ${pkg.homepage}\n */`
@@ -18,12 +19,19 @@ export default defineConfig(({ command }) => ({
 
   root: docsPath,
   publicDir: path.join(docsPath, "public"),
-  
+  server: {
+    fs: {
+      allow: [
+        // Permite acceso a estas carpetas si es necesario
+        './node_modules/three',
+        './node_modules/three/examples/jsm/loaders',
+      ]}},
   build: {
     chunkSizeWarningLimit: 1000,
     outDir: "../dist",
     publicDir: "docs/public",
     emptyOutDir: true,
+    sourcemap: true,
     reportCompressedSize: false,
     rollupOptions: {
       input: {
