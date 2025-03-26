@@ -520,106 +520,120 @@ function debugVRMLoading() {
 debugVRMLoading();
 // Animate Rotation Helper function
 
-// Importación segura de librerías
-function loadScript(url) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-}
+// Evitar declaraciones múltiples
+const initVRMLoaderModule = (function() {
+    // Función interna de carga de script
+    function loadScript(url) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
 
-async function initVRMLoader() {
-    // URLs de CDN para las librerías
-    const threeJsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    const gltfLoaderUrl = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
-    const vrmLoaderUrl = 'https://unpkg.com/@pixiv/three-vrm@0.3.x/lib/three-vrm.js';
+    // Función principal de carga de VRM
+    async function initVRMLoader() {
+        // URLs de CDN para las librerías
+        const threeJsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        const gltfLoaderUrl = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
+        const vrmLoaderUrl = 'https://unpkg.com/@pixiv/three-vrm@0.3.x/lib/three-vrm.js';
 
-    try {
-        // Cargar librerías de forma secuencial
-        await loadScript(threeJsUrl);
-        await loadScript(gltfLoaderUrl);
-        await loadScript(vrmLoaderUrl);
+        try {
+            // Cargar librerías de forma secuencial
+            await loadScript(threeJsUrl);
+            await loadScript(gltfLoaderUrl);
+            await loadScript(vrmLoaderUrl);
 
-        // Verificar que las librerías están cargadas
-        if (!window.THREE || !window.THREE.GLTFLoader) {
-            throw new Error('Librerías Three.js no cargadas correctamente');
-        }
+            // Verificar que las librerías están cargadas
+            if (!window.THREE || !window.THREE.GLTFLoader) {
+                throw new Error('Librerías Three.js no cargadas correctamente');
+            }
 
-        // Función de carga de modelo VRM
-        function loadVRMModel(url) {
-            return new Promise((resolve, reject) => {
-                // Verificar que THREE esté disponible
-                if (!window.THREE) {
-                    reject(new Error('Three.js no está disponible'));
-                    return;
-                }
-
-                // Crear loader
-                const loader = new window.THREE.GLTFLoader();
-
-                // Intentar cargar el modelo
-                loader.load(
-                    url,
-                    (gltf) => {
-                        console.log('Modelo cargado exitosamente', gltf);
-                        resolve(gltf);
-                    },
-                    (xhr) => {
-                        // Progreso de carga
-                        console.log(`Cargando modelo: ${(xhr.loaded / xhr.total * 100).toFixed(2)}%`);
-                    },
-                    (error) => {
-                        console.error('Error en la carga del modelo:', error);
-                        reject(error);
+            // Función de carga de modelo VRM
+            function loadVRMModel(url) {
+                return new Promise((resolve, reject) => {
+                    // Verificar que THREE esté disponible
+                    if (!window.THREE) {
+                        reject(new Error('Three.js no está disponible'));
+                        return;
                     }
-                );
-            });
+
+                    // Crear loader
+                    const loader = new window.THREE.GLTFLoader();
+
+                    // Intentar cargar el modelo
+                    loader.load(
+                        url,
+                        (gltf) => {
+                            console.log('Modelo cargado exitosamente', gltf);
+                            resolve(gltf);
+                        },
+                        (xhr) => {
+                            // Progreso de carga
+                            console.log(`Cargando modelo: ${(xhr.loaded / xhr.total * 100).toFixed(2)}%`);
+                        },
+                        (error) => {
+                            console.error('Error en la carga del modelo:', error);
+                            reject(error);
+                        }
+                    );
+                });
+            }
+
+            // Configuración de la escena
+            function setupScene(model) {
+                const scene = new window.THREE.Scene();
+                const camera = new window.THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new window.THREE.WebGLRenderer();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+
+                // Añadir modelo a la escena
+                scene.add(model.scene);
+
+                // Posicionar cámara
+                camera.position.z = 5;
+
+                // Función de animación
+                function animate() {
+                    requestAnimationFrame(animate);
+                    renderer.render(scene, camera);
+                }
+                animate();
+            }
+
+            // Cargar el modelo VRM específico
+            const MODEL_URL = 'https://accomplished-art-production.up.railway.app/public/Ashtra.vrm';
+            const model = await loadVRMModel(MODEL_URL);
+            
+            // Configurar escena
+            setupScene(model);
+
+        } catch (error) {
+            console.error('Error en la inicialización del modelo VRM:', error);
         }
+    }
 
-        // Cargar el modelo VRM específico
-        const MODEL_URL = 'https://accomplished-art-production.up.railway.app/public/Ashtra.vrm';
-        const model = await loadVRMModel(MODEL_URL);
-
-        // Configuración de la escena (ejemplo básico)
-        const scene = new window.THREE.Scene();
-        const camera = new window.THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new window.THREE.WebGLRenderer();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Añadir modelo a la escena
-        scene.add(model.scene);
-
-        // Posicionar cámara
-        camera.position.z = 5;
-
-        // Función de animación
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+    // Función de inicialización global
+    function siarp_initDrawVRM() {
+        try {
+            initVRMLoader();
+        } catch (error) {
+            console.error('Error en siarp_initDrawVRM:', error);
         }
-        animate();
-
-    } catch (error) {
-        console.error('Error en la inicialización del modelo VRM:', error);
     }
-}
 
-// Función de inicialización global
-function siarp_initDrawVRM() {
-    try {
-        initVRMLoader();
-    } catch (error) {
-        console.error('Error en siarp_initDrawVRM:', error);
-    }
-}
+    // Retornar función para ser exportada
+    return {
+        siarp_initDrawVRM
+    };
+})();
 
-// Exportar función para uso global
-window.siarp_initDrawVRM = siarp_initDrawVRM;
+// Exportar la función de manera segura
+export const { siarp_initDrawVRM } = initVRMLoaderModule;
 function detailedVRMLoader(url) {
     return new Promise((resolve, reject) => {
         // Verificaciones de librerías
