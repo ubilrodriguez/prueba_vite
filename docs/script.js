@@ -519,6 +519,73 @@ function debugVRMLoading() {
 // Llama a la función de diagnóstico
 debugVRMLoading();
 // Animate Rotation Helper function
+
+
+function detailedVRMLoader(url) {
+    return new Promise((resolve, reject) => {
+        // Verificaciones de librerías
+        console.log("Verificación de librerías:");
+        console.log("THREE disponible:", !!THREE);
+        console.log("GLTFLoader disponible:", !!GLTFLoader);
+        console.log("VRMLoaderPlugin disponible:", !!VRMLoaderPlugin);
+
+        // Verificar que las clases necesarias estén definidas
+        if (!THREE || !GLTFLoader) {
+            reject(new Error("Three.js o GLTFLoader no están correctamente importados"));
+            return;
+        }
+
+        // Crear loader de GLTF
+        const loader = new GLTFLoader();
+
+        // Añadir plugin VRM si está disponible
+        if (VRMLoaderPlugin) {
+            loader.register((parser) => new VRMLoaderPlugin(parser));
+        }
+
+        // Cargar modelo
+        loader.load(
+            url,
+            (gltf) => {
+                console.log("Modelo cargado exitosamente:", gltf);
+                
+                // Verificaciones adicionales
+                if (gltf.userData && gltf.userData.vrm) {
+                    console.log("Datos VRM encontrados:", gltf.userData.vrm);
+                    resolve(gltf);
+                } else {
+                    console.warn("Modelo cargado, pero sin datos VRM específicos");
+                    resolve(gltf);
+                }
+            },
+            (progress) => {
+                console.log(`Progreso de carga: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
+            },
+            (error) => {
+                console.error("Error detallado de carga:", error);
+                reject(error);
+            }
+        );
+    });
+}
+
+// Función de inicialización
+async function initializeVRMModel() {
+    const MODEL_URL = 'https://accomplished-art-production.up.railway.app/public/Ashtra.vrm';
+    
+    try {
+        console.log("Iniciando carga del modelo VRM");
+        const model = await detailedVRMLoader(MODEL_URL);
+        console.log("Modelo VRM cargado completamente:", model);
+        
+        // Aquí puedes añadir lógica adicional para usar el modelo
+    } catch (error) {
+        console.error("Error en la inicialización del modelo VRM:", error);
+    }
+}
+
+// Ejecutar inicialización
+initializeVRMModel();
 const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
     if (!currentVrm) {
         return;
