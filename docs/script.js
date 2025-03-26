@@ -400,7 +400,52 @@ loader.load("./public/Ashtra.vrm",
 
     (error) => console.error(error)
 );      
+async function safeLoadVRMModel() {
+    try {
+        // Añade verificaciones exhaustivas
+        const modelUrl = './public/Ashtra.vrm';
+        
+        if (!modelUrl) {
+            console.error('URL del modelo no definida');
+            return;
+        }
 
+        // Usa fetch con manejo de errores
+        const response = await fetch(modelUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        
+        // Añade validación adicional
+        if (!blob || blob.size === 0) {
+            console.error('Blob del modelo está vacío');
+            return;
+        }
+
+        // Lógica de carga del modelo VRM
+        const loader = new VRMLoader();
+        loader.load(
+            modelUrl, 
+            (vrm) => {
+                console.log('Modelo VRM cargado exitosamente');
+                // Aquí puedes hacer lo que necesites con el modelo
+            },
+            (progress) => {
+                console.log(`Cargando modelo: ${progress.loaded / progress.total * 100}%`);
+            },
+            (error) => {
+                console.error('Error al cargar el modelo VRM:', error);
+            }
+        );
+
+    } catch (error) {
+        console.error('Error en la carga del modelo:', error);
+    }
+}
+safeLoadVRMModel();
 // Animate Rotation Helper function
 const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
     if (!currentVrm) {
