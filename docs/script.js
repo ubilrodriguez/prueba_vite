@@ -372,7 +372,7 @@ const loader = new GLTFLoader();
 loader.crossOrigin = "anonymous";
 // Import model from URL, add your own model here
 //loader.load(
-loader.load("/Ashtra.vrm",
+loader.load("./public/Ashtra.vrm",
 //loader.load("model_file.binz",
 
     (gltf) => {
