@@ -1,0 +1,164 @@
+.scad_ctrlconfirmWinB{
+	 top: 0;
+    display: inline;
+	left:0;
+	background-color: rgb(68, 68, 68);
+	z-index: 1000001 !important;
+}
+.scad_conteConfirm{
+	width:400px;
+	height:200px;
+	position:absolute;
+	top:35%;
+	left:43%;
+	background:white;
+	display: flex;
+    flex-direction: column;
+	border-radius:5px;
+	animation: ani_ctrlConfirmA .5s;
+	z-index: 1000001 !important;
+}
+@keyframes ani_ctrlConfirmA{
+	from{
+		opacity:0.3;	
+		top:0;
+	}
+	to{
+		top:35%;
+		opacity:1;	
+	}	
+}
+.scad_ctrlconfirmHead{
+	width:100%;
+	height:15%;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+	background: #979595;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.scad_ctrlconfirmBtnExit{
+	border-top-right-radius: 5px;
+    border: none;
+    height: 100%;
+    background: transparent;
+	display:none;
+}
+.scad_ctrlconfirmBody{
+	width:100%;
+	height:90%;
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.scad_ctrlconfirmTxt{
+	text-align: center;
+	width: 100%;
+    height: 70%;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.scad_ctrlconfPBL{
+	width: 50%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.scad_ctrlCbtnL{
+	width: 70%;
+    height: 50%;
+	border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    background: #00adff;
+	color:white;
+	font-weight:700;
+}
+.scad_ctrlCbtnL:hover{
+	background: #0696db;
+    box-shadow: 0px 0px 1px 1px #0b90cf;
+}
+.scad_ctrlconfPBR{
+	width: 50%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.scad_ctrlCbtnR{
+	width: 70%;
+    height: 50%;
+	background: #787878;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: 700;
+	cursor:pointer;
+}
+.scad_ctrlCbtnR:hover{
+	background: #585656;
+    box-shadow: 0px 0px 1px 1px #585656;
+}
+
+
+.scad_ctrlCbtnYes{
+	width: 30%;
+    height: 50%;
+	border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    background: #00adff;
+	color:white;
+	font-weight:700;
+	margin-left: 50px;
+}
+
+.scad_ctrlCbtnNo{
+	width: 30%;
+    height: 50%;
+	  background: #00adff;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: 700;
+	cursor:pointer;
+	margin-left: 50px;
+}  
+
+.scad_ctrlCbtnCancel{
+	width: 40%;
+    height: 50%;
+	background: #787878;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: 700;
+	cursor:pointer;
+}
+
+
+
+.scad_ctrlconOnlyAc{
+	margin-left:25%;
+	width: 50%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scad_ctrlConfirmImg{
+	margin-left: 8%;
+    height: 60px;
+    width: 60px;
+    /*display: none;*/
+    margin-right: 20px;
+}
+
+.scad_ctrlConfirmTxtHead h3{
+	margin-left:10px;
+}

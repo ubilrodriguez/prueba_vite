@@ -1,0 +1,79 @@
+{ 
+	"name": "panatalla1",
+	"title":"Siarp-Scad",
+	"logo":"https://siarperu.com//Proyectos/deteccion_rostro/img/logo.png",
+	
+	"id": "panatalla1", 
+	"import":
+		[
+			{"type":"css","url": "assets/scad/css/scad_ctrls.css"},		
+			{"type":"css","url": "assets/css/login.css"},		
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlTextBox.js"},			
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlForm.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlLabel.js"},
+			{"type":"js", "url": "assets/scad/scripts/sys/scad_sysData.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_CtrlBlock.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlLink.js"},
+			{"type":"js", "url": "assets/scad/scripts/library/face/face-api.js"},
+			{"type":"js", "url": "assets/script/scad_validateLogin.js"}
+	
+		
+		], 
+	"execute":["showVerifyLogin","showRegister"],
+	"elements":
+		[
+			{"type":"panel","name":"Padre", "id":"contenedor","style":{"color": "white"},"property":{"absolute":"true","image":"./assets/img/scad_initial.jpeg","img-repeat":"1","sizex":"100%","sizey":"100vh"},
+			
+			"elements":
+				[
+					{"type":"panel","class":"containerLogin","name":"Padre","style":{"color": "transparent"},"property":{"absolute":"true"}, 
+			
+						"elements":
+							[
+								{"type":"panel","class":"col-6 cont01","name":"Padre", "id":"12","style":{"color": "transparent"},
+									"elements":
+										[
+											{"type":"label","class":"NameLabel","property":{"text":"SIARP-SCAD","posx":"0%","posy":"28%"}}
+										]},
+								
+								
+								{"type":"panel","class":"col-6 cont02","name":"Padre", "id":"12","style":{"color": "transparent"},
+									"elements":
+										[
+											{"type":"formulario","name":"Padre","id":"12","property":{"title":"Bienvenido","color":"blue"},
+											"elements":
+													[							    
+														{"type":"textbox","id":"usu","property":{"type":"text","holder":"Ingrese usuario","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","id":"cont","property":{"type":"password","holder":"Ingrese password","sizex":"80%","sizey":"11%","posx":"10%","posy":"3%"}},
+														{"type":"button","id":"but","class":"btn-2","property":{"text":"INGRESAR"}},
+														{"type":"link","id":"link","class":"enlace","property":{"text":"Crear cuenta nueva","posx":"0px","posy":"5%"}}
+														
+													]}
+										]} 
+								
+							] 
+					},
+					{"type":"panel","class":"PanelMark sizeMark01", "id":"2","style":{"color": "transparent"},"property":{"absolute":"true"},
+					  "elements":
+										[
+											{"type":"label","class":"watermark","property":{"text":"SIARP"}}
+										]
+					
+					},
+					{"type":"panel","class":"PanelMark sizeMark02", "id":"3","style":{"color": "transparent"},"property":{"absolute":"true"},
+					  "elements":
+										[
+											{"type":"label","class":"watermark","property":{"text":"SCAD"}}
+										]
+					
+					}
+				]
+			}
+		]	
+			
+		
+		
+		
+}

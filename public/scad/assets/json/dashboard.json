@@ -1,0 +1,489 @@
+{
+	"name": "panatalla1",
+	"title":"dashboard",
+	"id": "panatalla1",
+	"import": [
+		{
+			"type": "css",
+			"url": "assets/scad/css/scad_ctrls2.css"
+		},
+		{
+			"type": "css",
+			"url": "assets/scad/css/scad_CtrlProgressBar.css"
+		},
+		{
+			"type": "css",
+			"url": "assets/css/dashboard.css"
+		},
+		{
+			"type":"css",
+			"url": "assets/scad/scripts/library/leaflet/leaflet.css"
+		},	
+		
+		
+		{
+			"type":"js", 
+			"url": "assets/scad/scripts/controls/scad_ctrlMap.js"
+		},		
+		{
+			"type":"js", 
+			"url": "assets/scad/scripts/library/leaflet/leaflet.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_ctrlPanel.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_CtrlGrafBarra.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_ctrlGrafLine.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_ctrlGrafCir.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_CtrlProgressBar.js"
+		},
+		{
+			"type": "js",
+			"url": "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/chart.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_ctrlTable.js"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/sys/scad_sysData.js?xc"
+		},
+		{
+			"type": "js",
+			"url": "assets/scad/scripts/controls/scad_ctrlLabel.js"
+		},
+		{
+			"type":"js", "url": "assets/scad/scripts/sys/scad_sysLoop.js"
+		}
+	],
+	"elements": [
+		{
+			"type": "panel",
+			"class": "padre-fondo",
+			"style": {
+				"color": "transparent"
+			},
+			"property": {
+				"sizex": "100%",
+				"sizey": "100vh"
+			},
+			"elements": [
+				{
+					"type": "panel",
+					"class": "divisor-horizontal superior",
+					"style": {
+						"color": "transparent"
+					},
+					"property": {
+						"sizey": "50"
+					},
+					"elements": [
+						{
+							"type": "panel",
+							"class": "col-5 card",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+							    {
+									"type": "label",
+									"class": "title",
+									"property": {
+										"text": "&nbsp&nbsp ARRIBO"
+									}
+								},
+								{
+									"type": "panel",
+									"class": "container-grafico",
+									"style": {
+										"color": "transparent"
+									},
+									"elements": [
+										{
+											"type": "grafico",
+											"design": "linea",
+											"style": {
+													"color": "transparent"
+											},
+											"property": {
+												"posx": "0",
+												"posy": "2%"
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "panel",
+							"class": "col-5 card",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+								{
+									"type": "panel",
+									"class": "container-grafico",
+									"style": {
+										"color": "transparent"
+									},
+									"elements": [
+										{
+											"type": "label",
+											"class": "title",
+											"property": {
+												"text": "  RESPUESTA"
+											}
+										},
+										{
+											"type": "grafico",
+											"design": "linea",
+											"style": {
+													"color": "transparent"
+											},
+											"property": {
+												"posx": "0",
+												"posy": "2%"
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"type": "panel",
+							"class": "col-2 card resumen",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+								{
+									"type": "label",
+									"class": "title",
+									"property": {
+										"text": "RESUMEN"
+									}
+								},
+								{
+									"type": "label",
+									"class": "texto",
+									"property": {
+										"text": "Fecha: 10/03/21"
+									}
+								},
+								{
+									"type": "label",
+									"class": "texto",
+									"property": {
+										"text": "Total: 55"
+									}
+								},
+								{
+									"type": "label",
+									"class": "texto",
+									"property": {
+										"text": "Exitosas: 90%"
+									}
+								},
+								{
+									"type": "label",
+									"class": "texto",
+									"property": {
+										"text": "Error: 10%"
+									}
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "panel",
+					"class": "divisor-horizontal",
+					"style": {
+						"color": "transparent"
+					},
+					"elements": [
+						
+						{
+							"type": "panel",
+							"class": "col-2 card",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+								{
+									"type": "panel",
+									"class": "resumen",
+									"style": {
+										"color": "transparent"
+									},
+									"elements": [
+										{
+											"type": "label",
+											"class": "title",
+											"property": {
+												"text": "SISTEMA"
+											}
+										},
+										{
+											"type": "panel",
+											"class": "contenedor-sistema-item",
+											"style": {
+												"color": "#161616"
+											},
+											"elements": [
+												{
+													"type": "panel",
+													"style": {
+														"color": "transparent"
+													},
+													"property": {
+														"sizex": "50%",
+														"sizey": "auto"
+													},
+													"elements": [
+														{
+															"type": "label",
+															"property": {
+																"text": "CPU: "
+															}
+														}
+													]
+												},
+												{
+													"type": "panel",
+													"style": {
+														"color": "transparent"
+													},
+													"property": {
+														"sizex": "100%",
+														"sizey": "auto"
+													},
+													"elements": [
+														{
+															"type": "progress-bar",
+															"property": {
+																"porcentaje": "70",
+																"displayText": "true",
+																"colorBar":"#161616",
+																"colorBackground":"#1F1F1F"
+															}
+														}
+													]
+												}
+											]
+										},
+										{
+											"type": "panel",
+											"class": "contenedor-sistema-item",
+											"style": {
+												"color": "#161616"
+											},
+											"elements": [
+												{
+													"type": "panel",
+													"property": {
+														"sizex": "50%",
+														"sizey": "auto"
+													},
+													"style": {
+														"color": "transparent"
+													},
+													"elements": [
+														{
+															"type": "label",
+															"property": {
+																"text": "Memoria: "
+															}
+														}
+													]
+												},
+												{
+													"type": "panel",
+													"property": {
+														"sizex": "100%",
+														"sizey": "auto"
+													},
+													"style":{
+														"color":"transparent"
+													},
+													"elements": [
+														{
+															"type": "progress-bar",
+															"property": {
+																"porcentaje": "60",
+																"displayText": "true",
+																"colorBar":"green",
+																"colorBackground":"#1F1F1F"
+															}
+														}
+													]
+												}
+											]
+										},
+										{
+											"type": "grafico",
+											"design": "Circular",
+											"style":{
+														"color":"transparent"
+													}
+										}
+									]
+								}
+							]
+						},
+						
+						
+						{
+							"type": "panel",
+							"class": "col-5 card",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+								{
+									"type": "panel",
+									"class": "container",
+									"style": {
+										"color": "transparent"
+									},
+									"elements": [
+										
+										{
+									"type": "label",
+									"class": "title",
+									"property": {
+											"text": "ESTADOS"
+									}
+								  },
+								{
+									"type": "panel",
+									"class": "contenedor-sistema-item",
+									"style": {
+										"color": "#161616"
+									},
+									"elements": [
+										{
+											"type": "panel",
+											"style": {
+												"color": "transparent"
+											},
+											"property": {
+												"sizex": "30%",
+												"sizey": "auto"
+											},
+											"elements": [
+												{
+													"type": "label",
+													"property": {
+														"text": "Switch Use Q: "
+														
+													}
+												}
+											]
+										},
+										{
+											"type": "panel",
+											"style": {
+												"color": "transparent"
+											},
+											"property": {
+												"sizex": "100%",
+												"sizey": "auto"
+											},
+											"elements": [
+												{
+													"type": "progress-bar",
+													"property": {
+														"porcentaje": "50",
+														"displayText": "true",
+														"colorBar":"#540300",
+														"colorBackground":"#1F1F1F"
+													}
+												}
+											]
+										}
+									]
+								},	
+								{
+									"type": "panel",
+									"class": "container",
+									"style": {
+										"color": "transparent"
+									},
+									"elements": [
+										
+										{
+											"type": "tabla",
+											"url": "assets/json/data_table.json",
+											"property": {
+												"paginator": "true"
+											}
+										}
+									]
+								}
+										
+										
+									]
+								}
+							]
+						},
+						
+						
+						
+						
+						{
+							"type": "panel",
+							"class": "col-5 card",
+							"style": {
+								"color": "#1F1F1F"
+							},
+							"elements": [
+							
+							
+							{
+										"type":"map",
+										"id":"showMa",
+										"lat":-10,
+										"lon":-76,
+										"zoom":8.2,
+										"class":"mapa", 
+										"property":
+											{
+												"typeMap":"leaflet",
+												"absolute":"true",
+												"sizex":"100%",
+												"sizey":"100%",
+												"pines":
+													{
+														"src":"./assets/php/test_mapa/RanCoor.php",
+														"draw_type":"poly",
+														"refresh":5
+													}
+												
+											}
+									}
+										
+							   
+							]
+						}
+						
+					]
+				}
+			]
+		}
+	]
+}

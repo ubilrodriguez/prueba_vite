@@ -1,0 +1,51 @@
+import { siarp_initDrawVRM,siarp_getDataVRM, siarp_moveVRM } from '../../../script.js';
+
+function createInformation()
+{
+	createPageInformation();
+	
+};
+function createPageInformation()
+{
+	///////////////// CREACION DE LA PAGINA ///////////////////
+	var contGrnl=new scad_ctrlPanel(document.body,"id","class");
+	
+	contGrnl.addPosition("absolute");
+	contGrnl.sizePanel("100%","100%");
+	contGrnl.addImagePanel("scad/assets/img/scad_demoRegister/fondo.jpg","1");
+	
+	var contConfElem=new scad_ctrlPanel(contGrnl.getHandler(),"id","scad_confPanelPrinInfo");
+	
+	var contConfElem2=new scad_ctrlPanel(contConfElem.getHandler(),"id","scad_contElemInfo");
+	var contConfTitle=new scad_ctrlPanel(contConfElem2.getHandler(),"id","scad_conTitleInfo");
+	contConfTitle.addTextPanel("Datos de Acciones");
+	
+	var contConfForm=new scad_ctrlPanel(contConfElem2.getHandler(),"id","scad_conTableInfo");
+	
+	var obj_data={"head":["fecha","hora","user","type","description"],"body":[["19/4/2022","15:8:28","Abraham","DEBUG","Camara encendida"],["19/4/2022","15:8:28",null,"DEBUG","Interfaz reconocimiento facial"],["19/4/2022","14:16:38",null,"DEBUG","Se hizo click en interfaz agregar usuario."],["19/4/2022","14:9:18",null,"DEBUG","Camara encendida"],["19/4/2022","14:9:17",null,"DEBUG","Interfaz reconocimiento facial"],["19/4/2022","14:9:11",null,"DEBUG","Se hizo click en interfaz agregar usuario."],["11/4/2022","22:12:23","mcuzcor22","INFO","Se intento agregar una nueva aplicaciÃ³n."],["11/4/2022","22:12:21","mcuzcor22","DEBUG","Se hizo click en interfaz agregar politica."],["11/4/2022","22:12:5","mcuzcor22","INFO","Se intento agregar una nueva aplicaciÃ³n."],["11/4/2022","22:12:3","mcuzcor22","DEBUG","Se hizo click en interfaz agregar politica."],["11/4/2022","22:11:10","mcuzcor22","DEBUG","IniciÃ³ sesion correctamente"],["11/4/2022","21:59:15","mcuzcor22","DEBUG","IniciÃ³ sesion correctamente"],["11/4/2022","21:57:18","manuel123","DEBUG","No se escontro el usuario"],["11/4/2022","21:57:10","manuel123","DEBUG","No se escontro el usuario"],["11/4/2022","21:55:37","miguelV","DEBUG","Se agregÃ³ un nuevo permiso."],["11/4/2022","21:55:0","miguelV","DEBUG","IniciÃ³ sesion correctamente"],["11/4/2022","21:51:44","manuel123","DEBUG","Se hizo click en interfaz agregar usuario."],["11/4/2022","21:22:16","manuel123","DEBUG","IniciÃ³ sesion correctamente"],["11/4/2022","21:19:24","manuel123","DEBUG","IniciÃ³ sesion correctamente"]]};
+	
+	
+	var sendParam='{"opera":"30","date":"'+scad_getTime("date")+'","time":"'+scad_getTime("hour")+'"}';
+	
+	var ptr=new scad_sysData("scad/assets/php/getDataActions.php","POST",sendParam,scad_buildTable,null,null,null,null,null);
+	ptr.setSync(false);		
+	ptr.setReturnType("json");		
+	ptr.send(); 	
+	function scad_buildTable(data,param)
+	{
+		var jsonTable={"head":["Accion","Partes"],"body":data["data"]};
+		console.log(jsonTable);
+		var emp_table= new scad_ctrlTable(contConfForm.getHandler());
+		emp_table.createTable("scad_SCA_empTable");
+		emp_table.drawtable(null,jsonTable);
+		emp_table.insertPagination("paginator");			
+		emp_table.paginatorBrigde({table: emp_table.table,box: emp_table.pag,active_class: "color_page",num:10});	
+	};                  		
+	/////////////////////////  SEGUNDO PANEL //////////////////////////////////	
+	var contSecondPanel=new scad_ctrlPanel(contConfElem.getHandler(),"id","scad_conPersonaje");
+	var contPersonaje=new scad_ctrlPanel(contSecondPanel.getHandler(),"cam_DashBody","scad_conImgPersonajeInfo");
+	contPersonaje.addImagePanel("scad/assets/img/scad_demoRegister/animeFondo.gif","1");
+	siarp_initDrawVRM();
+	contSecondPanel.getHandler().onclick=()=>{console.log(siarp_getDataVRM());}
+}
+createInformation();

@@ -1,0 +1,635 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+input[type=number] { -moz-appearance:textfield; }
+/*============Paneles principales de la aplicacion=============*/
+.scad_SCA_principalP{
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+.scad_SCA_PanelSeg{
+	width:100%;
+	height:100%;
+	display:flex;
+}
+.work-area{
+	width:100%;
+	height:100%;
+}
+/*===========================================================*/
+/*===================Menu lateral======================================*/
+.scad_SCA_MenuL{
+	position:absolute;
+	width: 100px;
+    height: 100%;
+}
+.scad_SCA_MenuL
+.banV{
+	
+}
+.scad_SCA_MenuL
+.banV .checkMenu{
+	display:none;
+}
+.scad_SCA_panelElements{
+	height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 8fr;
+	justify-content: center;
+    gap: 50px;
+	/*background: #041C32;*/
+	background:#131313;
+    justify-items: center;
+	color: #9B9B9B;
+}
+.scad_SCA_fU{
+	width: 80px;
+	margin-top: 20px;
+}
+.scad_SCA_itemsLateral{
+	height:100%;
+	width:100px;
+}
+.scad_SCA_elem{
+	margin-top:30px;
+	display: flex;
+    flex-direction: column;
+}
+.scad_SCA_elem:hover{
+	/*background:#213c70;*/
+	background:#1E1E1E;
+}
+.scad_SCA_elem
+img{
+	width:30px;
+	
+}
+.scad_SCA_elem 
+.scad_ctrlSubMenu{
+	display:none;
+}
+.scad_SCA_elem:hover>.scad_ctrlSubMenu{
+	display:block;
+	/*background: #041c32;*/
+	background:#1E1E1E;
+    position: absolute;
+    left: 100px;
+    height: 200px;
+    display: grid;
+    align-items: center;
+	width: 100px;
+    padding: 0;
+	cursor: default;
+	border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+	/*box-shadow: inset -20px 3px 18px 0px #07142c;*/
+	box-shadow: inset -20px 3px 18px 0px #2d2f2f;
+}
+.scad_SCA_sub2{
+	display:none;
+}
+.scad_SCA_elem:hover > .scad_SCA_sub2{
+	display:block;
+	/*background: #041c32;*/
+	background:#1E1E1E;
+    position: absolute;
+    left: 100px;
+    display: grid;
+    align-items: center;
+	width: 100px;
+    padding: 0;
+	cursor: default;
+	border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+	/*box-shadow: inset -20px 3px 18px 0px #07142c;*/
+	box-shadow: inset -20px 3px 18px 0px #2d2f2f;
+}
+.scad_SCA_itemSm{
+	list-style: none;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.scad_SCA_itemSm:hover{
+	/*background: #213c70;*/
+	background:#9B9B9B;
+}
+.scad_SCA_itemSm
+.textItem {
+	color: white;
+}
+.scad_SIARPwinb{
+	/*position:absolute;
+	width:100%;
+	height:100%;
+	opacity:0.6;*/
+	display:none;
+	
+}
+/*=============================================================*/
+/*=======================Pantalla Empresa====================================*/
+.scad_SCA_empPanelPrin{
+	width: 100%;
+    height: 100%;
+	display: flex;
+    flex-direction: column;
+	background: black;
+}
+.scad_SCA_empPanelSeg{
+	width: 98%;
+    height: 98%;
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+    gap: 30px;
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    /*background: #04293A;*/
+	background:#1E1E1E;
+    border-radius: 5px;
+}
+.scad_SCA_empPanelTitle{
+	display: flex;
+    align-items: center;
+    justify-content: space-around;
+	color: white;
+    font-family: cursive;
+}
+.scad_SCA_empPanelBody{
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr 10fr;
+	justify-items: center;
+    gap: 40px;
+}
+.scad_SCA_logPanelBody{
+	display: grid;
+    justify-items: center;
+    gap: 40px;
+}
+.scad_SCA_empPanelFilter{
+	display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+	width:87%;
+	/*background: #064663;*/
+	background:#2D2F2F;
+    border-radius: 5px;
+	gap: 20px;
+	/*box-shadow: inset 0px 1px 10px 2px #01141c;*/
+	box-shadow: inset 0px 1px 10px 2px #3f4040;
+}
+.scad_SCA_empFilterTxbx{
+	width: 100%;
+}
+.scad_SCA_empFilterCbbx{
+	display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    justify-items: center;
+	width: 95%;
+	gap: 10px;
+	color: white;
+}
+.scad_SCA_empFilterCbbx
+select{
+	width:100%;
+	height: 30px;
+    border-radius: 5px;
+    border: none;
+}
+.scad_SCA_empFilterBtnB{
+	height: 100%;
+    width: 60px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    background: #2b2b2a;
+    color: white;
+}
+.scad_SCA_empFilterTxbx
+input{
+	height:30px;
+	width:100%;
+	border-radius: 5px;
+    border: none;
+}
+.scad_SCA_empFilterTxbx
+input:focus{
+	border:none;
+	outline:none;
+	color: black;
+}
+.scad_SCA_empPanelAdd{
+	width: 60%;
+    border-radius: 5px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.scad_SCA_empAddem{
+	height: 40px;
+    width: 90%;
+    border-radius: 5px;
+    border: none;
+    background: #2b2b2a;
+    color: white;
+	/*box-shadow: inset 0px 0px 6px 1px #6a3c00;*/
+	box-shadow: inset 0px 0px 6px 1px #464747;
+}
+.scad_SCA_empAddem:hover{
+	background:#E2E2E2;
+	color:#131313;
+}
+.scad_SCA_empPanelTable{
+	width: 90%;
+    /*background: #2b2b2a;*/
+	background:#2D2F2F;
+    border-radius: 5px;
+    margin-bottom: 40px;
+	grid-column: 1/3;
+}
+.scad_SCA_empPanelTable
+#cont_g{
+	display: grid;
+    grid-template-rows: 5fr 1fr;
+	justify-items: center;
+	box-shadow: inset 1px 1px 11px 2px #1a130a;
+	border-radius:5px;
+	width:50%;
+}
+.scad_SCA_empPanelTable
+#cont_table{
+	height: 100%;
+    display: flex;
+}
+.scad_SCA_empTable{
+	width: 100%;
+    height: 100%;
+	text-align: center;
+}
+.scad_SCA_empTable
+thead{
+	font-size: 13px;
+    font-weight: normal;
+    padding: 8px;
+    /*background: #064663;*/
+	background:#131313;
+    border-top: 4px solid #1d358b;
+    border-bottom: 1px solid #fff;
+    color: white;
+	height: 30px;
+}
+.scad_SCA_empTable
+th{
+	border-radius: 1px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.scad_SCA_empTable
+td{
+	padding: 8px;
+    /*background: #ffffff;*/
+	background:#E2E2E2;
+    border-bottom: 1px solid #fff;
+    color: #19191a;
+    border-top: 1px solid transparent;
+    border-radius: 5px;
+}
+.scad_SCA_empTable
+tr:hover td{
+	background: #9B9B9B; 
+	color: #E2E2E2
+}
+.scad_SCA_empPanelTable 
+.paginator{
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	gap: 10px;
+	width:50%;
+}
+.scad_SCA_empPanelTable 
+.paginator 
+div{
+	height: 30px;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    gap: 2px;
+	width:70%;
+	height:60%;
+	justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+.scad_SCA_empPanelTable 
+.paginator 
+button{
+	border-radius:5px;
+	border:none;
+	height:20px;
+	width:30px;
+}
+.scad_SCA_empPanelTable 
+.paginator 
+select{
+	height: 20px;
+	border-radius: 5px;
+    border: none;
+}
+.scad_SCA_filEmp{
+	grid-template-columns: 1fr 1fr;
+}
+.scad_SCA_empPFilterTxbx{
+	display: grid;
+    grid-template-columns: 10fr 1fr;
+	width:90%;
+}
+/*==============================Pop Empresa=================================*/
+.scad_winBackPoppus{
+	position:absolute;	
+}
+
+.scad_SCA_popAddEmp{
+	position: absolute;
+    width: 60%;
+    left: 20%;
+    height: 90%;
+    top: 5%;
+	z-index: 2;
+}
+.scad_SCA_popAddEmp .scad_btnExit{
+	width: 25px;
+    height: 25px;
+    border-radius: 5px;
+}
+.scad_SCA_popAddRecF{
+	z-index:1000;
+}
+/*===============================agregar empresa==================================*/
+.scad_SCA_addEPanelPrin{
+	height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+    gap: 20px;
+	/*background: #064663;*/
+	background:#1E1E1E;
+    border-radius: 5px;
+	color:#ffffff;
+}
+.scad_SCA_FormAddTitle{
+	text-align:center;
+}
+.scad_SCA_FormAaddEmp{
+	display: grid;
+    align-items: center;
+    justify-items: center;
+}
+.scad_SCA_FormAETxtb{
+	width:80%;
+	display: grid;
+    grid-template-columns: 1fr 10fr;
+	align-items: center;
+}
+.scad_SCA_ftxbx{
+	display: grid;
+    grid-template-columns: 1fr 5fr;
+	align-items: center;
+}
+.scad_SCA_ftxbx .spanT:after{
+	
+    
+}
+.scad_SCA_obligatorio:after{
+	content:attr(data-content);
+	width: 5px;
+    height: 5px;
+    color: red;
+	position:absolute;
+}
+.scad_SCA_ftxbxIco{
+	margin-left: 50%;
+}
+.scad_SCA_FormAETxtb 
+input{
+	/*height:30px;*/
+	border:none;
+	border-bottom: 1px solid #8f8d8d;
+	background:transparent;
+	color:#727172;
+}
+
+.scad_SCA_FormAETxtb 
+input:focus{
+	border:none;
+	outline:none;
+	border-bottom: 1px solid black;
+	color: white;
+}
+.scad_SCA_FormAETxtb .scad_SCA_ftxbx
+select{
+	height:30px;
+	border:none;
+	border-bottom: 1px solid #8f8d8d;
+	background:transparent;
+	cursor:pointer;
+	color:#727172;
+}
+.scad_SCA_FormAETxtb .scad_SCA_ftxbx
+select:focus{
+	border:none;
+	outline:none;
+	border-bottom: 1px solid black;
+	color: white;
+}
+.scad_SCA_FormAETxtb .scad_SCA_ftxbx
+select:focus-visible{
+	background:#1E1E1E;
+	scrollbar-width: thin;          
+	scrollbar-color: blue orange
+}
+.scad_SCA_btnCAEmp{
+	height: 40px;
+    width: 30%;
+    border-radius: 5px;
+    border: none;
+    background: #2D2F2F;
+    color: white;
+}
+/*=====================================usuario===================*/
+.scad_SCA_userPF{
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.scad_SCA_userPF .scad_SCA_empFilterTxbx input{
+	
+}
+.scad_SCA_FormAETxtbLeft{
+	width: 80%;
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+	gap: 10px;
+}
+.scad_SCA_FormAETxtbL1{
+	width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    /*gap: 9px;
+    margin-bottom: 3%;*/
+}
+.scad_SCA_FormAETxtbL2{
+	height: 100px;
+	/*--------*/
+	display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;	
+}
+.scad_SCA_imgPerfil{
+	width: 100%;
+    height: 100%;
+	border-radius: 3px;
+	border: 1px solid #b2b2b2;
+}
+.scad_SCA_btnCamRecoF{
+	position: absolute;
+	background: #9b9b9b;
+	border: 1px solid #e2e2e2;
+    border-radius: 3px;
+}
+.scad_SCA_btnCamRecoF:hover{
+	background:#E2E2E2;
+}
+.scad_SCA_imgPerfilIcoAdd{
+	/*width: 130px;
+    height: 100px;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 300%;
+	display:none;*/
+}
+.scad_SCA_PFormAETxtbUser{
+	width:100%;
+}
+/*====================roles========================*/
+.scad_SCA_pBtnopc{
+	display:grid;
+	grid-template-columns:1fr;
+}
+.scad_SCA_panelChbxOp{
+	display:grid;
+	grid-template-columns:1fr;
+}
+.scad_SCA_chbxShOp{
+	width: 30%;
+    border-radius: 5px;
+    border: none;
+    height: 20px;
+    background: #2D2F2F;
+    box-shadow: inset 0px 0px 7px 0px #021426;
+    color: white;
+    font-size: 13px;
+	/*display: grid;
+    grid-template-columns: 1fr 10fr;
+	align-items: center;*/
+}
+.scad_SCA_panelSelecOpcion{
+	grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    height: max-content;
+}
+/*==================pop selec opc========================*/
+.scad_SCA_selOpcPanelP{
+	width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+	background: #1e1e1e;
+	border-radius:5px;
+	color:white;
+}
+.scad_SCA_pnlCamRF{
+	width: 90%;
+    height: 50%;
+    border: 1px solid white;
+}
+.scad_SCA_pnlCamRF video{
+	object-fit: fill;
+}
+.scad_SCA_selOpcPanelP h3{
+	width: 100%;
+    height: 10%;
+	text-align: center;
+    margin: inherit;
+}
+.scad_SCA_panelSelIzq{
+	width: 45%;
+    height: 60%;
+	    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.scad_SCA_panelSelCentro{
+	width: 10%;
+    height: 60%;
+    display: grid;
+    justify-content: center;
+    align-content: space-evenly;
+}
+.scad_SCA_panelSelIzq select{
+	height:90%;
+}
+.scad_SCA_cbxIzq, .scad_SCA_cbxDer{
+	height:100%;
+	width:90%;
+	display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.scad_SCA_panelSelDer select{
+	height:90%;
+}
+.scad_SCA_panelSelDer{
+	width: 45%;
+    height: 60%;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+.scad_SCA_btnSeOp{
+	width: 30%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background: #2b2b2a;
+    color: white;
+    box-shadow: inset 0px 0px 6px 1px #6a3c00;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+}
+/*==========================================*/
+
+/*==========================Seleccionar opciones=======================================00*/
+.scad_SCA_popAddEmp2{
+	position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    z-index: 100;
+}
+#scad_SCA_popSelOp{
+	z-index:100;
+}

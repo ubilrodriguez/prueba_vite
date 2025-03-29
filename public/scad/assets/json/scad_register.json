@@ -1,0 +1,80 @@
+{ 
+	"name": "panatalla1", 
+	"id": "panatalla1", 
+	"import":
+		[
+				
+			{"type":"css", "url": "assets/css/scad_register.css"},	
+		
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlPanel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlBoton.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlTextBox.js"},			
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlForm.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlRadio.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlLabel.js"},
+			{"type":"js", "url": "assets/scad/scripts/controls/scad_ctrlFace.js"},
+			{"type":"js", "url": "assets/scad/scripts/library/face/face-api.js"},
+			{"type":"js", "url": "assets/scad/scripts/sys/scad_sysData.js"},
+			
+			{"type":"js", "url": "assets/script/scad_register.js"}
+			
+	
+		
+		], 
+		
+	"execute":"scad_registerUser",
+	
+	"elements":
+		[
+			{"type":"panel","name":"Padre", "id":"1","style":{"color": "#262626"},"property":{"absolute":"true","img-repeat":"1","sizex":"100vw","sizey":"100vh"},
+			
+			"elements":
+				[
+					{"type":"panel","class":"containerReg pad","name":"Padre", "id":"12","style":{"color": "#d9dfec"}, 
+			
+						"elements":
+							[
+								{"type":"panel","class":"contTitleReg","name":"Padre", "id":"12","style":{"color": "transparent"},
+									"elements":
+										[
+											{"type":"label","class":"titleReg","property":{"text":"Registro Usuario"}}
+										]},
+								
+								
+								{"type":"panel","class":"contTextBox","name":"Padre", "id":"12","style":{"color": "transparent"},
+									"elements":
+										[
+											{"type":"formulario","class":"formRegister","name":"Padre","id":"12","property":{"color":"blue"},
+											"elements":
+													[							    
+														{"type":"textbox","class":"inpReg","id":"name","property":{"type":"text","holder":"Nombres","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","class":"inpReg","id":"surname","property":{"type":"text","holder":"Apellidos","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","class":"inpReg","id":"area","property":{"type":"text","holder":"Area","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","class":"inpReg","id":"ocupation","property":{"type":"text","holder":"Ocupacion","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","class":"inpReg","id":"user","property":{"type":"text","holder":"Usuario","sizex":"80%","sizey":"11%","posx":"10%"}},
+														{"type":"textbox","class":"inpReg","id":"pass","property":{"type":"password","holder":"password","sizex":"80%","sizey":"11%","posx":"10%","posy":"3%"}},
+														{"type":"panel","class":"contInBu","property":{"sizex":"90%","sizey":"100px"},"style":{"color":"transparent"},
+															"elements":
+																[
+																	
+																	{"type":"input","class":"radReg","id":"radio","property":{"type":"radio","label":"Activar la Camara","name":"passs","sizex":"80%","sizey":"11%","posx":"10%","posy":"3%"}},
+																	{"type":"label","class":"messageReg","property":{"text":"Por favor espere que se detecte su rostro (Se marcara el rostro con un cuadrado azul) para poder Guardar sus Datos"}},
+																	{"type":"button","id":"send","class":"btnReg1 btnReg","property":{"text":"GUARDAR"}}
+																]
+														}
+														
+														
+													]}
+										]} 
+								
+							] 
+					},
+					{"type":"panel","class":"containerReg pad ","name":"Padre", "id":"showCam","style":{"color": "transparent"},"property":{"image":"assets/img/logo1.png"}}
+				]
+			}
+		]	
+			
+		
+		
+		
+}
