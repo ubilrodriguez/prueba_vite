@@ -1,7 +1,6 @@
 
 import * as Kalidokit from "../dist1";
 import * as THREE from "three";
-
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { VRM, VRMSchema, VRMUtils } from "@pixiv/three-vrm";
@@ -20,8 +19,8 @@ async function siarp_loadDataVMRCoor(id){
     var ptr_coor=new scad_sysData("/siarp_acciones.json","POST",
 	'{"opera":60,"date":0,"time":0,"id_accion":'+gral_json_accion.data[id][0]+'}',
 	function(data){
-		// console.log('hola aqqui 1',JSON.stringify(data));
-		// console.log('hola aqqui 2',data);
+		console.log(JSON.stringify(data));
+		console.log(data);
         if(data.rc==0){
             if(gral_json_coordenadas==null){
                 gral_json_coordenadas=data;
@@ -57,7 +56,7 @@ async function siarp_loadDataVMR()
 	var ptr_part=new scad_sysData("/siarp_acciones.json","POST",
 	'{"opera":20,"date":0,"time":0}',
 	function(data){
-		console.log('los datos de data',data);
+		//console.log(data);
 		gral_json_partesCuerpo=data;
 		}
 	,null,null,null,null,null);
@@ -84,18 +83,14 @@ async function siarp_loadDataVMR()
 	=coor;*/
 	       
 }
-// siarp_loadDataVMR();
-
-async function init() {
-    await siarp_loadDataVMR();
-    // Resto de inicializaciones
-}
-init();
+siarp_loadDataVMR();
 // //Import Helper Functions from Kalidokit
 
 const clamp = Kalidokit.Utils.clamp;
 const lerp = Kalidokit.Vector.lerp;
 
+
+console.log("que es esta variables "+clamp)
 /* THREEJS WORLD SETUP */
 let currentVrm;
     
@@ -110,7 +105,7 @@ const elemento = document.getElementById("cam_DashBody");
 
 renderer.setSize(elemento.parentNode.clientWidth,elemento.parentNode.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-console.log('ele',elemento);
+console.log(elemento);
 elemento.appendChild(renderer.domElement);
 document.body.onresize = function(){
     var elemento = document.getElementById("cam_DashBody");
@@ -126,7 +121,7 @@ const elemento = document.getElementById("cam_DashBody_pop");
 
 renderer.setSize(elemento.parentNode.clientWidth,elemento.parentNode.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-console.log('9999999999999',elemento);
+console.log(elemento);
 elemento.appendChild(renderer.domElement);
 document.body.onresize = function(){
     var elemento = document.getElementById("cam_DashBody_pop");
@@ -215,9 +210,7 @@ scad_sysLoop(()=>
 }, 1000, null, true, null, null,document.body);
 /*===========================================*/
 export function siarp_getDataVRM()
-
 {
-     if (!currentVrm || !currentVrm.humanoid) return [];
 	var bones_vrm=currentVrm.humanoid.humanBones;
 	//console.log(bones_vrm);
 	var part=gral_json_partesCuerpo.data;
@@ -327,7 +320,10 @@ export function siarp_getDataVRM2()
 function siarp_setRotation(obj,x,y,z)
 {
     if(obj==undefined) return;
-    
+     //console.log(obj.node)
+	 //obj.node.position.x=0;
+     //obj.node.position.y=0;
+	 //obj.node.position.z=0;
 	obj.node.rotation._x=x;
 	obj.node.rotation._y=y;
 	obj.node.rotation._z=z;
@@ -337,10 +333,6 @@ function siarp_setRotation(obj,x,y,z)
 function siarp_posInitial()
 {
 	//siarp_getDataVRM();	
-    if (!currentVrm || !currentVrm.humanoid) {
-        console.warn("Modelo VRM aún no cargado.");
-        return;
-    }
 	//console.log(currentVrm);
 	var bones_vrm=currentVrm.humanoid.humanBones;
    
@@ -372,17 +364,14 @@ const loader = new GLTFLoader();
 loader.crossOrigin = "anonymous";
 // Import model from URL, add your own model here
 //loader.load(
-loader.load("./public/Ashtra.vrm",
+    //"https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
+loader.load("Ashtra.vrm",
 //loader.load("model_file.binz",
 
     (gltf) => {
         VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
         VRM.from(gltf).then((vrm) => {
-            if (!vrm || !vrm.humanoid) {
-                throw new Error('Modelo VRM inválido');
-            }
-            currentVrm = vrm;
             scene.add(vrm.scene);
             currentVrm = vrm;
             console.log(vrm);
@@ -391,8 +380,6 @@ loader.load("./public/Ashtra.vrm",
 			
 			siarp_posInitial();
 			
-        }).catch((error) => {
-            console.error('Error cargando VRM:', error);
         });
     },
 
@@ -400,124 +387,7 @@ loader.load("./public/Ashtra.vrm",
 
     (error) => console.error(error)
 );      
-async function safeLoadVRMModel() {
-    try {
-        // Añade verificaciones exhaustivas
-        const modelUrl = './public/Ashtra.vrm';
-        
-        if (!modelUrl) {
-            console.error('URL del modelo no definida');
-            return;
-        }
 
-        // Usa fetch con manejo de errores
-        const response = await fetch(modelUrl);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const blob = await response.blob();
-        
-        // Añade validación adicional
-        if (!blob || blob.size === 0) {
-            console.error('Blob del modelo está vacío');
-            return;
-        }
-
-        // Lógica de carga del modelo VRM
-        const loader = new VRMLoader();
-        loader.load(
-            modelUrl, 
-            (vrm) => {
-                console.log('Modelo VRM cargado exitosamente');
-                // Aquí puedes hacer lo que necesites con el modelo
-            },
-            (progress) => {
-                console.log(`Cargando modelo: ${progress.loaded / progress.total * 100}%`);
-            },
-            (error) => {
-                console.error('Error al cargar el modelo VRM:', error);
-            }
-        );
-
-    } catch (error) {
-        console.error('Error en la carga del modelo:', error);
-    }
-}
-safeLoadVRMModel();
-// Función de diagnóstico exhaustivo
-function debugVRMLoading() {
-    // Verifica importaciones
-    console.log("Verificando librerías:");
-    console.log("THREE disponible:", typeof THREE !== 'undefined');
-    console.log("GLTFLoader disponible:", typeof GLTFLoader !== 'undefined');
-    console.log("VRMLoader disponible:", typeof VRMLoader !== 'undefined');
-
-    // Función de carga con múltiples verificaciones
-    function safeLoadVRM(url) {
-        return new Promise((resolve, reject) => {
-            // Verifica URL
-            if (!url) {
-                reject(new Error("URL de modelo no proporcionada"));
-                return;
-            }
-
-            // Log de intento de carga
-            console.log(`Intentando cargar modelo desde: ${url}`);
-
-            // Usa fetch primero para verificar la respuesta
-            fetch(url)
-                .then(response => {
-                    console.log("Respuesta del servidor:", response);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.blob();
-                })
-                .then(blob => {
-                    console.log("Blob recibido:", blob);
-                    
-                    // Lógica de carga del modelo
-                    const loader = new THREE.GLTFLoader();
-                    
-                    loader.load(
-                        url,
-                        (gltf) => {
-                            console.log("Modelo cargado exitosamente:", gltf);
-                            resolve(gltf);
-                        },
-                        (progress) => {
-                            console.log(`Progreso de carga: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
-                        },
-                        (error) => {
-                            console.error("Error detallado de carga:", error);
-                            reject(error);
-                        }
-                    );
-                })
-                .catch(error => {
-                    console.error("Error en la solicitud inicial:", error);
-                    reject(error);
-                });
-        });
-    }
-
-    // Ejemplo de uso
-    const MODEL_URL = './public/Ashtra.vrm';
-    safeLoadVRM(MODEL_URL)
-        .then(model => {
-            console.log("Modelo VRM cargado completamente:", model);
-            // Aquí puedes añadir la lógica para usar el modelo
-        })
-        .catch(error => {
-            console.error("Fallo en la carga del modelo:", error);
-        });
-}
-
-// Llama a la función de diagnóstico
-debugVRMLoading();
 // Animate Rotation Helper function
 const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAmount = 0.3) => {
     if (!currentVrm) {
@@ -864,7 +734,7 @@ export async function siarp_moveVRM(id)
 {
     gral_cnt_inactividad=5;
 	var dat_coor=gral_json_coordenadas.data;
-   console.log(JSON.stringify(dat_coor))
+   console.log("las coordenadas de la palabra avion",JSON.stringify(dat_coor))
     
     for(let k=0;k<dat_coor.length;k++)
 	{
